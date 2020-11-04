@@ -1,6 +1,6 @@
 package Persona;
 
-abstract class Persona {
+ abstract class Persona {
 	String nombre;
 	String celular;
 	
@@ -18,11 +18,3 @@ class Usuario extends Persona {
 	}
 }
 
-class Inspector extends Persona {
-	
-	public Inspector (String nombre, String celular) {
-		super(nombre, celular);
-	
-	}
-
-}
