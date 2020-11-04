@@ -15,7 +15,6 @@ import SEM.*;
 
 class Usuario extends Persona {
 	
-	
 	public Usuario (String nombre, Celular celular) {
 		super(nombre, celular);
 	}
