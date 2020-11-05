@@ -3,9 +3,8 @@ import SEM.Celular;
 
 public class Inspector extends Persona {
 	
-	
-	public Inspector (String nombre, Celular celular) {
-		super(nombre, celular);
+	public Inspector (Celular celular) {
+		super(celular);
 	}
 	
 	//public verificarPatenteEstacionamiento(Auto auto) {}

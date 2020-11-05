@@ -5,5 +5,9 @@ import Persona.Inspector;
 
 public class Zona {
 	private ArrayList<PuntoDeVenta> PuntosDeVentaDisponibles;
-	private Inspector InspectorAsigando;	
+	private Inspector InspectorAsigando;
+	
+	public void registrarPuntoDeVenta(PuntoDeVenta puntoDeVenta) {
+		PuntosDeVentaDisponibles.add(puntoDeVenta);
+	}
 }

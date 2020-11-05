@@ -1,22 +1,17 @@
 package Persona;
+import EspaciosFisicos.PuntoDeVenta;
 import SEM.*;
 
- abstract class Persona {
-	private String nombre;
+abstract class Persona {
 	private Celular celular;
+	private PuntoDeVenta puntoDeVenta = new PuntoDeVenta();
+	private Comerciante comerciante = new Comerciante(puntoDeVenta);
 	
-	
-	public Persona (String nombre, Celular celular) {
-		this.nombre = nombre;
+	public Persona (Celular celular) {
 		this.celular = celular;
 	}
- 
-}
-
-class Usuario extends Persona {
 	
-	public Usuario (String nombre, Celular celular) {
-		super(nombre, celular);
+	public void Comprar(String patente, byte horas) {
+		comerciante.RegistrarPersona(patente, horas);
 	}
 }
-

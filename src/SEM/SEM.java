@@ -1,20 +1,20 @@
 package SEM;
 import java.util.ArrayList;
 
-import EspaciosFisicos.Estacionamiento;
+import Compra.Compra;
+import Compra.CompraFisica;
 import EspaciosFisicos.Zona;
+import Estacionamiento.Estacionamiento;
 
 public class SEM {
 	private ArrayList<Compra> comprasRealizadas;
 	private ArrayList<Zona> zonasConSEM;
-	private ArrayList<Celular> celularesRegistrados;
+	private ArrayList<String> celularesRegistrados;
 	private ArrayList<Infraccion> infraccionesLabradas;
 	private ArrayList<Estacionamiento> Estacionamientos;
 	
-	
-	
-	public void dispararBajaDeEstacionamientos() {
-		
+	public void RegistrarZona(Zona zona) {
+		zonasConSEM.add(zona);
 	}
 	
 	public boolean consultarPatenteSEM(String patente) {
@@ -23,10 +23,13 @@ public class SEM {
 			if(Estacionamientos.get(i).getAutomovilEstacionado().patente() == patente) {
 				patenteEncontrada = patenteEncontrada || true;
 			}
-			else { patenteEncontrada= patenteEncontrada || false; 
+			else { patenteEncontrada = patenteEncontrada || false; 
 			}
 		}
 		return patenteEncontrada;
 	}
-	
+
+	public void registrarCompra(CompraFisica compra) {
+		comprasRealizadas.add(compra);
+	}
 }
