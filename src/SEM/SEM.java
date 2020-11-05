@@ -5,31 +5,47 @@ import Compra.Compra;
 import Compra.CompraFisica;
 import EspaciosFisicos.Zona;
 import Estacionamiento.Estacionamiento;
+import Persona.Inspector;
 
 public class SEM {
 	private ArrayList<Compra> comprasRealizadas;
 	private ArrayList<Zona> zonasConSEM;
 	private ArrayList<String> celularesRegistrados;
 	private ArrayList<Infraccion> infraccionesLabradas;
-	private ArrayList<Estacionamiento> Estacionamientos;
+	private ArrayList<Estacionamiento> estacionamientos;
+	private ArrayList<Inspector> inspectores;
+	
 	
 	public void RegistrarZona(Zona zona) {
 		zonasConSEM.add(zona);
 	}
 	
+	public static void cargarInfraccion(Infraccion infraccion) {
+		infraccionesLabradas.add(infraccion);
+	}
+	
 	public boolean consultarPatenteSEM(String patente) {
-		Boolean patenteEncontrada = false;
+		Boolean patenteVigenteEncontrada = false;
+		
 		for(int i=0; i < Estacionamientos.size(); i++){
-			if(Estacionamientos.get(i).getAutomovilEstacionado().patente() == patente) {
-				patenteEncontrada = patenteEncontrada || true;
+			if(Estacionamientos.get(i).getPatente() == patente) {
+				patenteVigenteEncontrada = patenteVigenteEncontrada || true && 
+						Estacionamientos.get(i).estaVigente();
 			}
-			else { patenteEncontrada = patenteEncontrada || false; 
+			else { patenteVigenteEncontrada = patenteVigenteEncontrada || false; 
 			}
 		}
-		return patenteEncontrada;
+		return patenteVigenteEncontrada;
 	}
 
 	public void registrarCompra(CompraFisica compra) {
 		comprasRealizadas.add(compra);
 	}
+	
+	public void labrarInfraccion(Inspector inspect, String patente) {
+		inspect.labrarInf
+	}
+	
+	
+
 }

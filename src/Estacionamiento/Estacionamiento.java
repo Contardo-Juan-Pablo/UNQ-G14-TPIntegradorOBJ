@@ -4,7 +4,7 @@ import java.util.Calendar;
 import EspaciosFisicos.Auto;
 
 public abstract class Estacionamiento {
-	private Auto automovilEstacionado;
+	private String patente;
 	private Calendar horaDeInicio;
 	private Calendar horaDeFinalizacion;
 	
@@ -13,12 +13,12 @@ public abstract class Estacionamiento {
 		return localDate.after(horaDeFinalizacion);
 	}
 	
-	public Auto getAutomovilEstacionado() {
-		return automovilEstacionado;
+	public String getPatente() {
+		return patente;
 	}
 
-	public Estacionamiento(Auto automovilEstacionado, Calendar horaDeInicio, Calendar horaDeFinalizacion) {
-		this.automovilEstacionado = automovilEstacionado;
+	public Estacionamiento(String patente, Calendar horaDeInicio, Calendar horaDeFinalizacion) {
+		this.patente = patente;
 		this.horaDeInicio = horaDeInicio;
 		this.horaDeFinalizacion = horaDeFinalizacion;
 	}
