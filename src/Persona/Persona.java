@@ -12,6 +12,10 @@ abstract class Persona {
 	}
 	
 	public void Comprar(String patente, byte horas) {
-		comerciante.RegistrarPersona(patente, horas);
+		comerciante.RegistrarCompraEstacionamiento(patente, horas);
+	}
+	
+	public void CargarCelular(int monto) {
+		comerciante.RegistrarCarga(celular.getNumero(),monto);
 	}
 }

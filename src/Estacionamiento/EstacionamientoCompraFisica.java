@@ -1,14 +1,11 @@
 package Estacionamiento;
-
 import java.util.Calendar;
-
-import EspaciosFisicos.Auto;
 
 class EstacionamientoCompraFisica extends Estacionamiento {
 	private int cantidadDeHorasCompradas;
 	
-	public EstacionamientoCompraFisica(Auto automovilEstacionado, Calendar horaDeInicio,Calendar horaDeFinalizacion, int cantidadDeHorasCompradas) {
-		super(automovilEstacionado, horaDeInicio, horaDeFinalizacion);
+	public EstacionamientoCompraFisica(String patente, Calendar horaDeInicio,Calendar horaDeFinalizacion, int cantidadDeHorasCompradas) {
+		super(patente, horaDeInicio, horaDeFinalizacion);
 		this.cantidadDeHorasCompradas = cantidadDeHorasCompradas;
 	}
 }

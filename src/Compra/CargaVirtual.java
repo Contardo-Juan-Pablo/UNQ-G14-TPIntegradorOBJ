@@ -1,15 +1,15 @@
 package Compra;
 
-import java.util.Date;
+import java.util.Calendar;
 import EspaciosFisicos.PuntoDeVenta;
 
 public class CargaVirtual extends Compra {
 	private int montoDeRecarga;
-	private char numeroCelularOrigen;
+	private int numeroCelularOrigen;
 	
-	public CargaVirtual(String códigoDeControl, PuntoDeVenta puntoDeVenta, Date fechaYHoraCompra,int montoDeRecarga, char numeroCelularOrigen) {
-		super(códigoDeControl, puntoDeVenta, fechaYHoraCompra);
+	public CargaVirtual(String códigoDeControl, PuntoDeVenta puntoDeVenta, Calendar fechaYHoraDeCarga,int montoDeRecarga, int numeroCelular) {
+		super(códigoDeControl, puntoDeVenta, fechaYHoraDeCarga);
 		this.montoDeRecarga = montoDeRecarga;
-		this.numeroCelularOrigen = numeroCelularOrigen;
+		this.numeroCelularOrigen = numeroCelular;
 	}
 }

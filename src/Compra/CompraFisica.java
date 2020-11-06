@@ -1,12 +1,12 @@
 package Compra;
 
-import java.util.Date;
+import java.util.Calendar;
 import EspaciosFisicos.PuntoDeVenta;
 
 public class CompraFisica extends Compra {
-	private int cantidadDeHorasCompradas;
+	private byte cantidadDeHorasCompradas;
 	
-	public CompraFisica(String códigoDeControl, PuntoDeVenta puntoDeVenta, Date fechaYHoraCompra, byte cantidadDeHorasCompradas) {
+	public CompraFisica(String códigoDeControl, PuntoDeVenta puntoDeVenta, Calendar fechaYHoraCompra, byte cantidadDeHorasCompradas) {
 		super(códigoDeControl, puntoDeVenta, fechaYHoraCompra);
 		this.cantidadDeHorasCompradas = cantidadDeHorasCompradas;
 	}

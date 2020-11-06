@@ -1,8 +1,6 @@
 package Estacionamiento;
 import java.util.Calendar;
 
-import EspaciosFisicos.Auto;
-
 public abstract class Estacionamiento {
 	private String patente;
 	private Calendar horaDeInicio;
