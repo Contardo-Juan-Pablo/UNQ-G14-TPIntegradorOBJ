@@ -17,4 +17,3 @@ public class Infraccion {
 		this.inspector = inspector;
 	}
 }
-

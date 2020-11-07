@@ -1,8 +1,6 @@
 package Persona;
 
 import java.util.Calendar;
-import java.util.Date;
-
 import Compra.CargaVirtual;
 import Compra.CompraFisica;
 import EspaciosFisicos.PuntoDeVenta;
@@ -22,11 +20,10 @@ public class Comerciante {
 		puntoDeVenta.IngresarCompra(compra);
 	}
 
-	public void RegistrarCarga(int numeroCelular, int monto) {
+	public void RegistrarCarga(int numeroDeCelular, int monto) {
 		String códigoDeControl = puntoDeVenta.getId().toString() + puntoDeVenta.lastControl().toString();
 		Calendar fechaYHoraDeCarga = Calendar.getInstance();
-		CargaVirtual carga = new CargaVirtual(códigoDeControl, puntoDeVenta, fechaYHoraDeCarga, monto, numeroCelular);
+		CargaVirtual carga = new CargaVirtual(códigoDeControl, puntoDeVenta, fechaYHoraDeCarga, monto, numeroDeCelular);
 		puntoDeVenta.IngresarCarga(carga);
-		// Cuando se tenga que actualizar el saldo para futuro
-	} 
+	}
 }

@@ -25,7 +25,5 @@ public class PuntoDeVenta {
 
 	public void IngresarCarga(CargaVirtual carga) {
 		sem.registrarCarga(carga);
-		
 	}
-	
 }

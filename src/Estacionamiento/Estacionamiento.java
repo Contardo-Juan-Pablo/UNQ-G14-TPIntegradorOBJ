@@ -3,8 +3,8 @@ import java.util.Calendar;
 
 public abstract class Estacionamiento {
 	private String patente;
-	private Calendar horaDeInicio;
-	private Calendar horaDeFinalizacion;
+	private int horaDeInicio;
+	private int horaDeFinalizacion;
 	
 	public Boolean estaVigente() {
 		Calendar localDate = Calendar.getInstance();
@@ -15,7 +15,7 @@ public abstract class Estacionamiento {
 		return patente;
 	}
 
-	public Estacionamiento(String patente, Calendar horaDeInicio, Calendar horaDeFinalizacion) {
+	public Estacionamiento(String patente, int horaDeInicio, int horaDeFinalizacion) {
 		this.patente = patente;
 		this.horaDeInicio = horaDeInicio;
 		this.horaDeFinalizacion = horaDeFinalizacion;

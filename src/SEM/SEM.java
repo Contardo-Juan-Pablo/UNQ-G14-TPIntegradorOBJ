@@ -1,6 +1,8 @@
 package SEM;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import Compra.CargaVirtual;
 import Compra.Compra;
@@ -13,7 +15,7 @@ public class SEM {
 	private ArrayList<Compra> comprasRealizadas;
 	private ArrayList<CargaVirtual> cargasRealizadas;
 	private ArrayList<Zona> zonasConSEM;
-	// private ArrayList<???> celularesRegistrados;
+	private Map<Integer, Integer> celulares = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
 	private ArrayList<Infraccion> infraccionesLabradas;
 	private ArrayList<Estacionamiento> estacionamientos;
 	
@@ -57,18 +59,32 @@ public class SEM {
 		comprasRealizadas.add(compra);
 	}
 
+	public int costoActualPorHora(int horaActual, int horasReservadas) {
+		int costo = (horaActual > 7 && horaActual < 20) ? horasReservadas * 40 : 0;
+		return costo;
+	}
+	
+	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
+		int horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		if(horaActual < 7 && horaActual > 20) {
+			estacionamientos.add(estacionamiento);
+		}
+	}
+	
 	public void registrarCarga(CargaVirtual carga) {
 		cargasRealizadas.add(carga);
-		// Cuando se tenga que actualizar el saldo para futuro this.ActualizarDatos(celularesRegistrados);
+		int celular = carga.getCelular();
+		if(celulares.containsKey(celular)) {
+			this.actualizarSaldo(celular, carga.getCarga());
+		}
 	}
 
+	public void actualizarSaldo(int celular, int carga) {
+		int nuevoSaldo = celulares.get(celular) + carga;
+		celulares.replace(celular, nuevoSaldo);
+	}
+	
+	public int saldoCelular(int celular) {
+		return celulares.get(celular);
+	}
 }
-
-
-
-
-
-
-
-
-
