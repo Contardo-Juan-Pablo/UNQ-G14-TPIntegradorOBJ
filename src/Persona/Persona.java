@@ -17,6 +17,6 @@ abstract class Persona {
 	}
 	
 	public void estacionar(String patente, int horasReservadas, SEM sem) {
-		celular.IniciarEstacionamiento(patente, horasReservadas, sem);
+		celular.solicitarInicioEstacionamientoSEMViaApp(patente, horasReservadas, sem);
 	}
 }
