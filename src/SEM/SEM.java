@@ -92,6 +92,14 @@ public class SEM {
 		return costo;
 	}
 	
+	public int costoActualPorHoraEnFranjaHorario(int horaActual, int horasReservadas) {
+		int costo = 0;
+		for(int hora = horaActual; hora<=horaActual+horasReservadas; hora++) {
+			costo = (hora > 7 && hora < 20) ? horasReservadas * 40 : 0;
+		}
+		return costo;
+	}
+	
 	public Boolean fueraDeHorario() {
 		Calendar fechaActual = Calendar.getInstance();
 		return fechaActual.get(Calendar.HOUR_OF_DAY) >= 20;
@@ -113,5 +121,4 @@ public class SEM {
 	public void RegistrarZona(Zona zona) {
 		zonasConSEM.add(zona);
 	}
-
 }
