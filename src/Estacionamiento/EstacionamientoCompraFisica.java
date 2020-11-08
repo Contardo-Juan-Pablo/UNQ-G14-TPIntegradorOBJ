@@ -7,4 +7,6 @@ class EstacionamientoCompraFisica extends Estacionamiento {
 		super(patente, horaDeInicio, horaDeFinalizacion);
 		this.cantidadDeHorasCompradas = cantidadDeHorasCompradas;
 	}
+	
+	
 }

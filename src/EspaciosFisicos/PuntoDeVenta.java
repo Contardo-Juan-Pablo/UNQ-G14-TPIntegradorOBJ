@@ -8,7 +8,7 @@ import SEM.SEM;
 
 public class PuntoDeVenta {
 	ArrayList<Integer> númeroDeControl;
-	Integer id;
+	Integer idPuntoDeVenta;
 	SEM sem;
 	
 	public Integer lastControl() {
@@ -16,7 +16,7 @@ public class PuntoDeVenta {
 	}
 
 	public Integer getId() {
-		return id;
+		return idPuntoDeVenta;
 	}
 
 	public void IngresarCompra(CompraFisica compra) {

@@ -27,4 +27,5 @@ public class Inspector extends Persona {
 	public Zona zonaDeTrabajo() {
 		return zonaDeInspeccion;
 	}
+	
 }

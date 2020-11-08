@@ -1,9 +1,16 @@
 package Persona;
+import SEM.SEM;
 
 public class Operador {
-	int legajo;
+	int legajoSEM;
 
-	public Operador(int legajo) {
-		this.legajo = legajo;
+	public Operador(int legajoSEM) {
+		this.legajoSEM = legajoSEM;
 	}	
+	
+	public void darBajaTotalEstacionamientos(SEM sem) {
+		if(sem.confirmarOperador(this)) {
+			sem.finalizarEstacionamientos();
+		}	
+	}
 }

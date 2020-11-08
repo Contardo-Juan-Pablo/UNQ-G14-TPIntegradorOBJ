@@ -1,18 +1,23 @@
 package Persona;
-
 import java.util.Calendar;
+
 import Compra.CargaVirtual;
 import Compra.CompraFisica;
 import EspaciosFisicos.PuntoDeVenta;
 
 public class Comerciante {
 	private PuntoDeVenta puntoDeVenta;
+	private String codigoComerciante;
 	
-	
-	public Comerciante(PuntoDeVenta puntoDeVenta) {
+	public Comerciante(PuntoDeVenta puntoDeVenta, String codigoComerciante) {
 		this.puntoDeVenta = puntoDeVenta;
+		this.codigoComerciante = codigoComerciante;
 	}
 	
+	public String getCodigoComerciante() {
+		return codigoComerciante;
+	}
+
 	public void RegistrarCompraEstacionamiento(String patente, byte horas) {
 		String códigoDeControl = puntoDeVenta.getId().toString() + puntoDeVenta.lastControl().toString();
 		Calendar fechaYHoraCompra = Calendar.getInstance();

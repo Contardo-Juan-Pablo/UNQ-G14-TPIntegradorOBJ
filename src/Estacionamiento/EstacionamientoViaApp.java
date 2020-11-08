@@ -7,4 +7,12 @@ public class EstacionamientoViaApp extends Estacionamiento {
 		super(automovilEstacionado, horaDeInicio, horaDeFinalizacion);
 		this.numeroCelularOrigen = numeroCelularOrigen;
 	}
+
+	public int getNumeroCelularOrigen() {
+		return numeroCelularOrigen;
+	}
+	
+	public Boolean esNumeroCelularBuscado(int numeroCelular) {
+		return numeroCelularOrigen == numeroCelular;
+	}
 }
