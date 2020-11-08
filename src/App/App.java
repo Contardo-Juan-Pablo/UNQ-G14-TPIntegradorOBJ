@@ -16,17 +16,14 @@ public class App {
 		int horaSalida = 0;
 		try {
 			if(saldoActual>0) {
-				if(saldoActual >= costoActual) {
-					if(horaActual+horasReservadas>=20) {
-						horaSalida = 20;
-					}
-					else {
-						horaSalida = horaActual+horasReservadas;
-					}
+				if(saldoActual >= costoActual && horaActual+horasReservadas>=20) {
+					horaSalida = 20;
+				}
+				else if(saldoActual >= costoActual) {
+					horaSalida = horaActual+horasReservadas;
 				}
 				else {
-					int horaPermitidas = (costoActual - saldoActual)/40;
-					horaSalida = horaActual+(horasReservadas - horaPermitidas);
+					horaSalida = horaActual + (saldoActual/40);
 				}
 				
 				sem.actualizarSaldo(numeroCelular, sem.costoActualPorHora(horaActual, horasReservadas));
@@ -48,5 +45,6 @@ public class App {
 	public void finalizarEstacionamiento(SEM sem, int numeroCelular) {
 		sem.terminarEstacionamiento(numeroCelular);
 	}
+	
 
 }
