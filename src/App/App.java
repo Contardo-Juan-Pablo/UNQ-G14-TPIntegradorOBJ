@@ -1,5 +1,4 @@
 package App;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import Estacionamiento.Estacionamiento;
@@ -56,6 +55,4 @@ public class App {
 		System.out.println("Costo de horas estacionado: " + sem.costoActualPorHoraEnFranjaHorario(horaInicial,horasReservadas));
 		sem.terminarEstacionamiento(numeroCelular);
 	}
-	
-
 }

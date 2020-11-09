@@ -6,6 +6,10 @@ public class Celular {
 	private int numeroCelular;
 	private App appSEMInstalada;
 	
+	public Celular (int numeroCelular) {
+		this.numeroCelular = numeroCelular;
+	}
+	
 	public int getNumero() {
 		return numeroCelular;
 	}
@@ -21,5 +25,4 @@ public class Celular {
 	public void solicitarFinalizacionEstacionamientoSEMViaApp(SEM sem) {
 		appSEMInstalada.finalizarEstacionamiento(sem, numeroCelular);
 	}
-
 }
