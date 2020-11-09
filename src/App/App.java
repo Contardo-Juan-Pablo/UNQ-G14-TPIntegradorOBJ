@@ -1,5 +1,8 @@
 package App;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import Estacionamiento.Estacionamiento;
 import Estacionamiento.EstacionamientoViaApp;
 import SEM.SEM;
 
@@ -42,7 +45,15 @@ public class App {
 		}
 	}
 	
-	public void finalizarEstacionamiento(SEM sem, int numeroCelular) {
+	public void finalizarEstacionamiento(SEM sem, int numeroCelular) {		
+		Estacionamiento estacionamiento = sem.buscarEstacionamiento(numeroCelular);
+		int horaInicial = estacionamiento.getHoraDeInicio();
+		int horaFinal = estacionamiento.getHoraDeFinalizacion();
+		int horasReservadas = horaFinal - horaInicial;
+		System.out.println("Hora inicial: " + horaInicial);
+		System.out.println("Hora final: " + horaFinal);
+		System.out.println("Duraciòn de horas estacionado: " + (sem.costoActualPorHoraEnFranjaHorario(horaInicial,horasReservadas)/40));
+		System.out.println("Costo de horas estacionado: " + sem.costoActualPorHoraEnFranjaHorario(horaInicial,horasReservadas));
 		sem.terminarEstacionamiento(numeroCelular);
 	}
 	

@@ -1,7 +1,7 @@
 package Estacionamiento;
 import java.util.Calendar;
 
-public abstract class Estacionamiento {
+public abstract class Estacionamiento {	
 	private String patente;
 	private int horaDeInicio;
 	private int horaDeFinalizacion;
@@ -13,6 +13,7 @@ public abstract class Estacionamiento {
 	
 	public String getPatente() {
 		return patente;
+		
 	}
 
 	public Estacionamiento(String patente, int horaDeInicio, int horaDeFinalizacion) {
@@ -25,5 +26,13 @@ public abstract class Estacionamiento {
 	
 	public Boolean esNumeroCelularBuscado(int numeroCelular) {
 		return false;
+	}
+	
+	public int getHoraDeInicio() {
+		return horaDeInicio;
+	}
+	
+	public int getHoraDeFinalizacion() {
+		return horaDeFinalizacion;
 	}
 }

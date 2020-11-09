@@ -83,6 +83,16 @@ public class SEM {
 		}
 	}
 	
+	public Estacionamiento buscarEstacionamiento(int numeroCelular) {
+		Estacionamiento estacionamiento = null;
+		for(int i=0; i < estacionamientos.size(); i++){
+			if(estacionamientos.get(i).esNumeroCelularBuscado(numeroCelular)) {
+				estacionamiento = estacionamientos.get(i);
+			}
+		}
+		return estacionamiento;
+	}
+	
 	///////////////////////////////////////////
 	///////////// SEM FUNCIONES AUX ///////////
 	///////////////////////////////////////////
@@ -93,11 +103,13 @@ public class SEM {
 	}
 	
 	public int costoActualPorHoraEnFranjaHorario(int horaActual, int horasReservadas) {
-		int costo = 0;
-		for(int hora = horaActual; hora<=horaActual+horasReservadas; hora++) {
-			costo = (hora > 7 && hora < 20) ? horasReservadas * 40 : 0;
+		int contador = 0;
+		for(int i = horaActual; i<=horaActual+horasReservadas; i++) {
+			if(i > 7 && i < 20) {
+				contador++;
+			}			
 		}
-		return costo;
+		return 40 * contador;
 	}
 	
 	public Boolean fueraDeHorario() {
