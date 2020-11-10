@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Compra.CargaVirtual;
 import Compra.CompraFisica;
+import Estacionamiento.EstacionamientoCompraFisica;
 import SEM.SEM;
 
 public class PuntoDeVenta {
@@ -19,8 +20,9 @@ public class PuntoDeVenta {
 		return idPuntoDeVenta;
 	}
 
-	public void IngresarCompra(CompraFisica compra) {
+	public void IngresarCompra(CompraFisica compra, EstacionamientoCompraFisica estacionamiento) {
 		sem.registrarCompra(compra);
+		sem.guardarEstacionamiento(estacionamiento);
 	}
 
 	public void IngresarCarga(CargaVirtual carga) {
