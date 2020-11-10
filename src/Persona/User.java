@@ -1,13 +1,14 @@
 package Persona;
-import SEM.*;
+import App.CelularUser;
+import SEM.SEM;
 
-abstract class Persona {
-	private Celular celular;
+public class User {
+	protected CelularUser celular;
 	
-	public Persona (Celular celular) {
+	public User(CelularUser celular) {
 		this.celular = celular;
 	}
-	
+
 	public void Comprar(String patente, byte horas, Comerciante comerciante) {
 		comerciante.RegistrarCompraEstacionamiento(patente, horas);
 	}
@@ -18,5 +19,9 @@ abstract class Persona {
 	
 	public void estacionar(String patente, int horasReservadas, SEM sem) {
 		celular.solicitarInicioEstacionamientoSEMViaApp(patente, horasReservadas, sem);
+	}
+	
+	public void cambiarModo() {
+		celular.cambiarModoViaApp();
 	}
 }

@@ -19,6 +19,7 @@ public class SEM {
 	private Map<Integer, Integer> celulares = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
 	private ArrayList<Infraccion> infraccionesLabradas;
 	private ArrayList<Estacionamiento> estacionamientos;
+	private ArrayList<Entidades> entidadesParticipantes;
 	private Operador operadorAsociado;
 	
     /////////////////////////////////////////////
@@ -72,6 +73,7 @@ public class SEM {
 		int horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		if(horaActual < 7 && horaActual > 20) {
 			estacionamientos.add(estacionamiento);
+				this.enviarNotificaciones();
 		}
 	}
 	
@@ -79,6 +81,7 @@ public class SEM {
 		for(int i=0; i < estacionamientos.size(); i++){
 			if(estacionamientos.get(i).esNumeroCelularBuscado(numeroCelular)) {
 				estacionamientos.remove(i);
+				this.enviarNotificaciones();
 			}
 		}
 	}
@@ -133,4 +136,13 @@ public class SEM {
 	public void RegistrarZona(Zona zona) {
 		zonasConSEM.add(zona);
 	}
+	
+	public void enviarNotificaciones() {
+		for(int i=0; i < entidadesParticipantes.size(); i++){
+			if(entidadesParticipantes.get(i).isEstadoSubscripto())
+			entidadesParticipantes.get(i).notificar();
+		}
+	}
+	
+	
 }
