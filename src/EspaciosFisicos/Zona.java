@@ -2,7 +2,6 @@ package EspaciosFisicos;
 
 import java.util.ArrayList;
 import Persona.Inspector;
-import javafx.util.Pair;
 
 public class Zona {
 	private ArrayList<PuntoDeVenta> PuntosDeVentaDisponibles;
@@ -21,8 +20,5 @@ public class Zona {
 		return InspectorAsigando;
 	}
 	
-	public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
-		return true;
-	}
 	
 }

@@ -22,6 +22,8 @@ public abstract class Estacionamiento {
 		this.horaDeFinalizacion = horaDeFinalizacion;
 	}
 	
+	//CONSULTAR CON LOS CHICOS
+	
 	public Boolean esNumeroCelularBuscado(int numeroCelular) {
 		return false;
 	}

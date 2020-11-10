@@ -1,23 +1,12 @@
 package App;
 import java.util.Calendar;
+
 import Estacionamiento.Estacionamiento;
 import Estacionamiento.EstacionamientoViaApp;
-import Persona.Inspector;
 import SEM.SEM;
 
-
-public class AppSEM { 
-	private boolean estadoActual;
-	private boolean estadoAnterior;
-	private boolean modoAutomatico = false;
+public class App {
 	
-	public AppSEM(boolean estadoActual, boolean estadoAnterior, boolean modoAutomatico) {
-		super();
-		this.estadoActual = estadoActual;
-		this.estadoAnterior = estadoAnterior;
-		this.modoAutomatico = modoAutomatico;
-	}
-
 	public int solicitarSaldoSEM(SEM sem, int numeroCelular) {
 		return sem.saldoCelular(numeroCelular);
 	}
@@ -64,44 +53,6 @@ public class AppSEM {
 		System.out.println("Hora final: " + horaFinal);
 		System.out.println("Duraciòn de horas estacionado: " + (sem.costoActualPorHoraEnFranjaHorario(horaInicial,horasReservadas)/40));
 		System.out.println("Costo de horas estacionado: " + sem.costoActualPorHoraEnFranjaHorario(horaInicial,horasReservadas));
-		sem.guardarEstacionamiento(estacionamiento);
+		sem.terminarEstacionamiento(numeroCelular);
 	}
-	
-	public void alertaDeInicioEstacionamiento(String patente, SEM sem) {
-		if(this.estadoAnterior && ! this.estadoActual && ! sem.consultarPatenteSEM(patente)) {
-			System.out.println("No inicio un estacionamiento");
-		}
-	}
-	
-	public void alertaDeFinEstacionamiento(String patente, SEM sem) {
-		if(!this.estadoAnterior && this.estadoActual && sem.consultarPatenteSEM(patente)) {
-			System.out.println("No finalizo el estacionamiento");
-		}
-	}
-	
-	public void finalizarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
-		// Cada hora se actualiza el estacionamiento. Es decir, se comprueba si el estado actual la persona cambio.
-		if(!this.estadoAnterior && this.estadoActual && sem.consultarPatenteSEM(patente)) {
-			this.finalizarEstacionamiento(sem, numeroCelular);
-			System.out.println("El estacionamiento a finalizado");
-		}
-	}
-	
-	public void iniciarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
-		// Cada hora se actualiza el estacionamiento. Es decir, se comprueba si el estado actual la persona cambio.
-		if(this.estadoAnterior && ! this.estadoActual && ! sem.consultarPatenteSEM(patente)) {
-			this.IniciarEstacionamiento(patente,1, sem, numeroCelular);
-			System.out.println("El estacionamiento a iniciado");
-		}
-	}
-
-	
-	public void setEstadoActual(boolean b) {
-		estadoActual = b;
-		estadoAnterior = !b;
-	}
-
-	public void cambiarModoApp() {
-		this.modoAutomatico = !modoAutomatico;
-	}	
 }

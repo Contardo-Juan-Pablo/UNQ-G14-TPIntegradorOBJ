@@ -1,27 +1,26 @@
 package Persona;
-import App.CelularInspector;
+
 import EspaciosFisicos.Zona;
+import SEM.Celular;
 import SEM.SEM;
 
-public class Inspector {
-	protected CelularInspector celular;
+public class Inspector extends Persona {
 	Zona zonaDeInspeccion;
 	int legajo;
 	
-	public Inspector (CelularInspector celular, Zona zonaDeInspeccion, int legajo) {
-		this.celular = celular;
+	public Inspector (Celular celular, Zona zonaDeInspeccion, int legajo) {
+		super(celular);
 		this.zonaDeInspeccion = zonaDeInspeccion;
 		this.legajo = legajo;
 	}
 	
-	public Boolean verificarPatenteEstacionamientoViaApp(String patente, SEM semActual) {
-		return celular.consultarPatenteApp(semActual, patente);
-		
+	public Boolean verificarPatenteEstacionamiento(String patente, SEM semActual) {
+		return semActual.consultarPatenteSEM(patente);
 	}
-	
-	public void enviarInfraccionViaApp(String patente,SEM semActual) {
-		if(this.verificarPatenteEstacionamientoViaApp(patente, semActual)) {
-			celular.gestionarInfraccion(patente, this, semActual);
+
+	public void enviarInfraccionSEM(String patente,SEM semActual) { 
+		if(this.verificarPatenteEstacionamiento(patente, semActual)) {
+			semActual.cargarInfraccion(patente, this);
 		}	
 	}
 
