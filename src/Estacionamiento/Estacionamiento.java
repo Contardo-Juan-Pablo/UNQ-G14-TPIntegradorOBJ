@@ -10,11 +10,6 @@ public abstract class Estacionamiento {
 		Calendar localDate = Calendar.getInstance();
 		return localDate.after(horaDeFinalizacion);
 	}
-	
-	public String getPatente() {
-		return patente;
-		
-	}
 
 	public Estacionamiento(String patente, int horaDeInicio, int horaDeFinalizacion) {
 		this.patente = patente;
@@ -32,5 +27,10 @@ public abstract class Estacionamiento {
 	
 	public int getHoraDeFinalizacion() {
 		return horaDeFinalizacion;
+	}
+	
+	public String getPatente() {
+		return patente;
+		
 	}
 }
