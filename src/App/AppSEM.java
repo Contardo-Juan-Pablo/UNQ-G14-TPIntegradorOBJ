@@ -11,11 +11,9 @@ public class AppSEM {
 	private boolean estadoAnterior;
 	private boolean modoAutomatico = false;
 	
-	public AppSEM(boolean estadoActual, boolean estadoAnterior, boolean modoAutomatico) {
-		super();
+	public AppSEM(boolean estadoActual, boolean estadoAnterior) {
 		this.estadoActual = estadoActual;
 		this.estadoAnterior = estadoAnterior;
-		this.modoAutomatico = modoAutomatico;
 	}
 
 	public int solicitarSaldoSEM(SEM sem, int numeroCelular) {
@@ -23,10 +21,11 @@ public class AppSEM {
 	}
 	
 	public void IniciarEstacionamiento(String patente, int horasReservadas, SEM sem, int numeroCelular) {
-		int horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		int horaActual = sem.getHoraActual();
 		int saldoActual = solicitarSaldoSEM(sem,numeroCelular);
 		int costoActual = sem.costoActualPorHoraEnFranjaHorario(horaActual, horasReservadas);
 		int horaSalida = 0;
+		
 		try {
 			if(saldoActual>0) {
 				if(saldoActual >= costoActual && horaActual+horasReservadas>=20) {
@@ -104,4 +103,8 @@ public class AppSEM {
 	public void cambiarModoApp() {
 		this.modoAutomatico = !modoAutomatico;
 	}	
+	
+	public Boolean getModoAutomatico() {
+		return modoAutomatico;
+	}
 }

@@ -51,13 +51,24 @@ public class SEM {
 
 	public boolean consultarPatenteSEM(String patente) {
 		Boolean patenteVigenteEncontrada = false;
-		for(int i=0; i < this.getEstacionamiento().size(); i++){
-			if(this.getEstacionamiento().get(i).getPatente() == patente) {
-				patenteVigenteEncontrada = patenteVigenteEncontrada || true && this.getEstacionamiento().get(i).estaVigente();
+		for(int i=0; i < this.getEstacionamientos().size(); i++){
+			if(this.getEstacionamientos().get(i).getPatente() == patente) {
+				patenteVigenteEncontrada = patenteVigenteEncontrada || true && this.getEstacionamientos().get(i).estaVigente(this);
 			}
 		}
 		return patenteVigenteEncontrada;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
     ////////////////////////////////////////////
 	///////////// SECCIÓN OPERADOR /////////////
@@ -80,7 +91,8 @@ public class SEM {
 	}
 	
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		if(this.horaActual() > 7 && this.horaActual() < 20) {
+		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		if(this.getHoraActual() > 7 && this.getHoraActual() < 20) {
 			this.setEstacionamiento(estacionamiento);
 			this.enviarNotificaciones();
 		}
@@ -113,11 +125,13 @@ public class SEM {
 	///////////// SEM FUNCIONES AUX ///////////
 	///////////////////////////////////////////
 	public int costoActualPorHora(int horaActual, int horasReservadas) {//Consultar
+		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		int costo = (horaActual > 7 && horaActual < 20) ? horasReservadas * 40 : 0;
 		return costo;
 	}
 	
 	public int costoActualPorHoraEnFranjaHorario(int horaActual, int horasReservadas) {
+		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		int contador = 0;
 		for(int i = horaActual; i<=horaActual+horasReservadas; i++) {
 			if(i > 7 && i < 20) {
@@ -128,7 +142,7 @@ public class SEM {
 	}
 	
 	public Boolean fueraDeHorario() {
-		return this.horaActual() >= 20;
+		return this.getHoraActual() >= 20;
 	}
 	
 	public void actualizarSaldo(int celular, int carga) {
@@ -189,10 +203,6 @@ public class SEM {
 		estacionamientos.add(estacionamiento);
 	}
 	
-	public ArrayList<Estacionamiento> getEstacionamiento() {
-		return estacionamientos;
-	}
-	
 	public void setInfraccionesLabradas(Infraccion infraccionGenerada) {
 		infraccionesLabradas.add(infraccionGenerada);
 	}
@@ -211,18 +221,6 @@ public class SEM {
 	
 	public int saldoCelular(int celular) {
 		return celulares.get(celular);
-	}
-	
-	public int horaActual() {
-		return horaActual;
-	}
-	
-	public void setHoraActual(int hora) {
-		horaActual = hora;
-	}
-	public static void main(String [] args) {
-		SEM sem = new SEM();
-		System.out.println(sem.getEstacionamiento().size());
 	}
 
 	public Operador getOperadorAsociado() {
@@ -257,6 +255,9 @@ public class SEM {
 		return horaActual;
 	}
 
+	public void setHoraActual(int hora) {
+		horaActual = hora;
+	}
 	public void setZonasConSEM(ArrayList<Zona> zonasConSEM) {
 		this.zonasConSEM = zonasConSEM;
 	}

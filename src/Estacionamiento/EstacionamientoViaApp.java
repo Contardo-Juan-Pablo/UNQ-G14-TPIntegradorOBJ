@@ -15,5 +15,4 @@ public class EstacionamientoViaApp extends Estacionamiento {
 	public Boolean esNumeroCelularBuscado(int numeroCelular) {
 		return numeroCelularOrigen == numeroCelular;
 	}
-	
 }

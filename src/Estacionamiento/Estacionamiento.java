@@ -1,20 +1,19 @@
 package Estacionamiento;
-import java.util.Calendar;
+import SEM.SEM;
 
 public abstract class Estacionamiento {	
 	private String patente;
 	private int horaDeInicio;
 	private int horaDeFinalizacion;
 	
-	public Boolean estaVigente() {
-		int localDate = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		return localDate < horaDeFinalizacion;
-	}
-
 	public Estacionamiento(String patente, int horaDeInicio, int horaDeFinalizacion) {
 		this.patente = patente;
 		this.horaDeInicio = horaDeInicio;
 		this.horaDeFinalizacion = horaDeFinalizacion;
+	}
+	
+	public Boolean estaVigente(SEM sem) { 
+		return sem.getHoraActual() >= 7 && sem.getHoraActual() < horaDeFinalizacion && sem.getHoraActual() <= 20;
 	}
 	
 	public Boolean esNumeroCelularBuscado(int numeroCelular) {
@@ -30,7 +29,6 @@ public abstract class Estacionamiento {
 	}
 	
 	public String getPatente() {
-		return patente;
-		
+		return patente;	
 	}
 }

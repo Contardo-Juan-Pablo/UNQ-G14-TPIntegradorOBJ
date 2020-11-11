@@ -9,11 +9,11 @@ public class User {
 		this.celular = celular;
 	}
 
-	public void Comprar(String patente, byte horas, Comerciante comerciante) {
+	public void comprar(String patente, byte horas, Comerciante comerciante) {
 		comerciante.RegistrarCompraEstacionamiento(patente, horas);
 	}
 	
-	public void CargarCelular(int monto, Comerciante comerciante) {
+	public void cargarCelular(int monto, Comerciante comerciante) {
 		comerciante.RegistrarCarga(celular.getNumero(), monto);
 	}
 	

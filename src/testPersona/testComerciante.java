@@ -3,18 +3,10 @@ package testPersona;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.AdditionalMatchers.*;
-import org.mockito.internal.util.reflection.FieldSetter;
-
-import Compra.CargaVirtual;
 import EspaciosFisicos.PuntoDeVenta;
-import Estacionamiento.EstacionamientoCompraFisica;
 import Persona.Comerciante;
-import Persona.Operador;
 import SEM.SEM;
-import static org.mockito.Mockito.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class testComerciante {
 	private Comerciante comerciante;
@@ -48,7 +40,6 @@ public class testComerciante {
 		comerciante.RegistrarCarga(numeroDeCelular, monto);
 		assertEquals(1, sem.getCargasRealizadas().size());
 	}
-	
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
