@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
 import Compra.CargaVirtual;
 import Compra.Compra;
 import Compra.CompraFisica;
 import EspaciosFisicos.Zona;
 import Estacionamiento.Estacionamiento;
+import Estacionamiento.EstacionamientoCompraFisica;
 import Estacionamiento.EstacionamientoViaApp;
 import Persona.Inspector;
 import Persona.Operador;
@@ -22,6 +22,8 @@ public class SEM {
 	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	private ArrayList<Entidades> entidadesParticipantes = new ArrayList<Entidades>();
 	private Operador operadorAsociado;
+	private int horaActual;
+	
 	
     /////////////////////////////////////////////
     ///////////// SECCIÓN INSPECTOR /////////////
@@ -49,9 +51,9 @@ public class SEM {
 
 	public boolean consultarPatenteSEM(String patente) {
 		Boolean patenteVigenteEncontrada = false;
-		for(int i=0; i < estacionamientos.size(); i++){
-			if(estacionamientos.get(i).getPatente() == patente) {
-				patenteVigenteEncontrada = patenteVigenteEncontrada || true && estacionamientos.get(i).estaVigente();
+		for(int i=0; i < this.getEstacionamiento().size(); i++){
+			if(this.getEstacionamiento().get(i).getPatente() == patente) {
+				patenteVigenteEncontrada = patenteVigenteEncontrada || true && this.getEstacionamiento().get(i).estaVigente();
 			}
 		}
 		return patenteVigenteEncontrada;
@@ -78,13 +80,16 @@ public class SEM {
 	}
 	
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		int horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		if(horaActual > 7 && horaActual < 20) {
-			estacionamientos.add(estacionamiento);
-				this.enviarNotificaciones();
+		if(this.horaActual() > 7 && this.horaActual() < 20) {
+			this.setEstacionamiento(estacionamiento);
+			this.enviarNotificaciones();
 		}
 	}
 	
+	public void setEstacionamientos(ArrayList<Estacionamiento> estacionamientos) {
+		this.estacionamientos = estacionamientos;
+	}
+
 	public void terminarEstacionamiento(int numeroCelular) {
 		for(int i=0; i < estacionamientos.size(); i++){
 			if(estacionamientos.get(i).esNumeroCelularBuscado(numeroCelular)) {
@@ -123,8 +128,7 @@ public class SEM {
 	}
 	
 	public Boolean fueraDeHorario() {
-		Calendar fechaActual = Calendar.getInstance();
-		return fechaActual.get(Calendar.HOUR_OF_DAY) >= 20;
+		return this.horaActual() >= 20;
 	}
 	
 	public void actualizarSaldo(int celular, int carga) {
@@ -151,6 +155,20 @@ public class SEM {
 		comprasRealizadas.add(compra);
 	}
 	
+	
+	
+	public void setCargasRealizadas(ArrayList<CargaVirtual> cargasRealizadas) {
+		this.cargasRealizadas = cargasRealizadas;
+	}
+
+	public ArrayList<Compra> getComprasRealizadas() {
+		return comprasRealizadas;
+	}
+
+	public void setComprasRealizadas(ArrayList<Compra> comprasRealizadas) {
+		this.comprasRealizadas = comprasRealizadas;
+	}
+
 	public void setCargasRealizadas(CargaVirtual cargaVirtual) {
 		cargasRealizadas.add(cargaVirtual);
 	}
@@ -167,8 +185,8 @@ public class SEM {
 		return zonasConSEM;
 	}
 		
-	public void setEstacionamiento(EstacionamientoViaApp estacionamientoViaApp) {
-		estacionamientos.add(estacionamientoViaApp);
+	public void setEstacionamiento(Estacionamiento estacionamiento) {
+		estacionamientos.add(estacionamiento);
 	}
 	
 	public ArrayList<Estacionamiento> getEstacionamiento() {
@@ -194,4 +212,57 @@ public class SEM {
 	public int saldoCelular(int celular) {
 		return celulares.get(celular);
 	}
+	
+	public int horaActual() {
+		return horaActual;
+	}
+	
+	public void setHoraActual(int hora) {
+		horaActual = hora;
+	}
+	public static void main(String [] args) {
+		SEM sem = new SEM();
+		System.out.println(sem.getEstacionamiento().size());
+	}
+
+	public Operador getOperadorAsociado() {
+		return operadorAsociado;
+	}
+
+	public void setOperadorAsociado(Operador operadorAsociado) {
+		this.operadorAsociado = operadorAsociado;
+	}
+	
+	public Map<Integer, Integer> getCelulares() {
+		return celulares;
+	}
+
+	public void setCelulares(Map<Integer, Integer> celulares) {
+		this.celulares = celulares;
+	}
+
+	public ArrayList<Entidades> getEntidadesParticipantes() {
+		return entidadesParticipantes;
+	}
+
+	public void setEntidadesParticipantes(ArrayList<Entidades> entidadesParticipantes) {
+		this.entidadesParticipantes = entidadesParticipantes;
+	}
+
+	public ArrayList<Estacionamiento> getEstacionamientos() {
+		return estacionamientos;
+	}
+
+	public int getHoraActual() {
+		return horaActual;
+	}
+
+	public void setZonasConSEM(ArrayList<Zona> zonasConSEM) {
+		this.zonasConSEM = zonasConSEM;
+	}
+
+	public void setInfraccionesLabradas(ArrayList<Infraccion> infraccionesLabradas) {
+		this.infraccionesLabradas = infraccionesLabradas;
+	}
+	
 }

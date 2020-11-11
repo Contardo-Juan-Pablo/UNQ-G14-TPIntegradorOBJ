@@ -7,8 +7,8 @@ public abstract class Estacionamiento {
 	private int horaDeFinalizacion;
 	
 	public Boolean estaVigente() {
-		Calendar localDate = Calendar.getInstance();
-		return localDate.after(horaDeFinalizacion);
+		int localDate = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		return localDate < horaDeFinalizacion;
 	}
 
 	public Estacionamiento(String patente, int horaDeInicio, int horaDeFinalizacion) {

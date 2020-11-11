@@ -12,10 +12,12 @@ public class PuntoDeVenta {
 	Integer idPuntoDeVenta;
 	SEM sem;
 	
-	public PuntoDeVenta(Integer idPuntoDeVenta) {
+	public PuntoDeVenta(ArrayList<Integer> númeroDeControl, Integer idPuntoDeVenta, SEM sem) {
+		this.númeroDeControl = númeroDeControl;
 		this.idPuntoDeVenta = idPuntoDeVenta;
+		this.sem = sem;
 	}
-	
+
 	public Integer lastControl() {
 		return new Integer(númeroDeControl.size());
 	}
@@ -31,5 +33,9 @@ public class PuntoDeVenta {
 
 	public void IngresarCarga(CargaVirtual carga) {
 		sem.registrarCarga(carga);
+	}
+	
+	public String getCodigoDeControl() {
+		return this.getId().toString() + this.lastControl().toString();
 	}
 }

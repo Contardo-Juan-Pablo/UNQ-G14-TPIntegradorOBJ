@@ -19,7 +19,7 @@ public class Comerciante {
 	}
 
 	public void RegistrarCompraEstacionamiento(String patente, byte horas) {
-		String códigoDeControl = puntoDeVenta.getId().toString() + puntoDeVenta.lastControl().toString();
+		String códigoDeControl = puntoDeVenta.getCodigoDeControl();
 		Calendar fechaYHoraCompra = Calendar.getInstance();
 		CompraFisica compra = new CompraFisica(códigoDeControl, puntoDeVenta, fechaYHoraCompra, horas);
 		EstacionamientoCompraFisica estacionamiento = new EstacionamientoCompraFisica(patente, fechaYHoraCompra.get(Calendar.HOUR_OF_DAY), fechaYHoraCompra.get(Calendar.HOUR_OF_DAY) + horas, horas);

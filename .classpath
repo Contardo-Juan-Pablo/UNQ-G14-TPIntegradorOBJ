@@ -3,5 +3,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/Juampi/Desktop/byte-buddy-agent-1.10.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Juampi/Desktop/byte-buddy-1.10.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Juampi/Desktop/objenesis-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Juampi/Desktop/mockito-core-3.3.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -38,7 +38,7 @@ public class testSEM{
 	public void setUp() throws Exception {
 		sem = new SEM();
 		
-		puntoDeVenta = new PuntoDeVenta(1);		
+		puntoDeVenta = new PuntoDeVenta(null, 1, sem);		
 		puntosDeVentaDisponibles = new ArrayList<PuntoDeVenta>();
 		puntosDeVentaDisponibles.add(puntoDeVenta);
 		
