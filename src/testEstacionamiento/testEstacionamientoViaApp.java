@@ -47,13 +47,31 @@ public class testEstacionamientoViaApp {
 	}
 	
 	@Test
-	void test() {
+	void mainTestGetPatente() {
 		testGetPatente();
+	}
+	
+	@Test
+	void mainTestHoraDeInicio() {
 		testHoraDeInicio();
+	}
+	
+	@Test
+	void mainTestGetHoraDeFinalizacion() {
 		testGetHoraDeFinalizacion();
+	}
+	@Test
+	void mainTestEstaVigente() {
 		testEstaVigente();
+	}
+	@Test
+	void mainTestGetNumeroCelularOrigen() {
 		testGetNumeroCelularOrigen();
+	}
+	
+	@Test
+	void mainTestEsNumeroCelularBuscado() {
 		testEsNumeroCelularBuscado();
 	}
-
+	
 }

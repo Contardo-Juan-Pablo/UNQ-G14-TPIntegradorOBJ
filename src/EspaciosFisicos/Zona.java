@@ -9,8 +9,8 @@ public class Zona {
 	private Inspector InspectorAsigando;
 	
 	public Zona(ArrayList<PuntoDeVenta> puntosDeVentaDisponibles, Inspector inspectorAsigando) {
-		PuntosDeVentaDisponibles = puntosDeVentaDisponibles;
-		InspectorAsigando = inspectorAsigando;
+		this.PuntosDeVentaDisponibles = puntosDeVentaDisponibles;
+		this.InspectorAsigando = inspectorAsigando;
 	}
 	
 	public void registrarPuntoDeVenta(PuntoDeVenta puntoDeVenta) {
@@ -23,6 +23,10 @@ public class Zona {
 	
 	public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
 		return true;
+	}
+	
+	public boolean contieneAlInspector(Inspector inspector) {
+		return inspector == InspectorAsigando;
 	}
 	
 }

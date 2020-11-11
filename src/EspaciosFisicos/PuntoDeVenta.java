@@ -12,6 +12,10 @@ public class PuntoDeVenta {
 	Integer idPuntoDeVenta;
 	SEM sem;
 	
+	public PuntoDeVenta(Integer idPuntoDeVenta) {
+		this.idPuntoDeVenta = idPuntoDeVenta;
+	}
+	
 	public Integer lastControl() {
 		return new Integer(númeroDeControl.size());
 	}

@@ -5,12 +5,10 @@ import SEM.SEM;
 
 public class Inspector {
 	protected CelularInspector celular;
-	Zona zonaDeInspeccion;
 	int legajo;
 	
-	public Inspector (CelularInspector celular, Zona zonaDeInspeccion, int legajo) {
+	public Inspector (CelularInspector celular, int legajo) {
 		this.celular = celular;
-		this.zonaDeInspeccion = zonaDeInspeccion;
 		this.legajo = legajo;
 	}
 	
@@ -23,10 +21,6 @@ public class Inspector {
 		if(this.verificarPatenteEstacionamientoViaApp(patente, semActual)) {
 			celular.gestionarInfraccion(patente, this, semActual);
 		}	
-	}
-
-	public Zona zonaDeTrabajo() {
-		return zonaDeInspeccion;
 	}
 	
 }
