@@ -26,7 +26,7 @@ public class Zona {
 	}
 	
 	public boolean contieneAlInspector(Inspector inspector) {
-		return inspector == InspectorAsigando;
+		return inspector == this.getInspectorAsigando();
 	}
 	
 }
