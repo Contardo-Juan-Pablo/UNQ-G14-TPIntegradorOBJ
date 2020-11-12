@@ -40,4 +40,8 @@ public class CelularUser extends Celular implements MovementSensor {
 		appSEMInstalada.cambiarModoApp();
 		
 	}
+
+	public AppSEM getAppSEMInstalada() {
+		return appSEMInstalada;
+	}
 }

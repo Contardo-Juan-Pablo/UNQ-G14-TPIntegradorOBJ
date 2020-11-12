@@ -13,7 +13,7 @@ public abstract class Estacionamiento {
 	}
 	
 	public Boolean estaVigente(SEM sem) { 
-		return sem.getHoraActual() >= 7 && sem.getHoraActual() < horaDeFinalizacion && sem.getHoraActual() <= 20;
+		return sem.getHoraActual() >= 7 && sem.getHoraActual() <= 20;
 	}
 	
 	public Boolean esNumeroCelularBuscado(int numeroCelular) {

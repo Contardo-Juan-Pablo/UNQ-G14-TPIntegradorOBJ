@@ -28,5 +28,9 @@ public class Zona {
 	public boolean contieneAlInspector(Inspector inspector) {
 		return inspector == this.getInspectorAsigando();
 	}
+
+	public ArrayList<PuntoDeVenta> getPuntosDeVentaDisponibles() {
+		return PuntosDeVentaDisponibles;
+	}
 	
 }

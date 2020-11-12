@@ -141,7 +141,7 @@ public class SEM {
 	public void enviarNotificaciones() { //Consultar
 		for(int i=0; i < entidadesParticipantes.size(); i++){
 			if(entidadesParticipantes.get(i).isEstadoSubscripto())
-			entidadesParticipantes.get(i).notificar();
+			entidadesParticipantes.get(i).serNotificado();
 		}
 	}
 	

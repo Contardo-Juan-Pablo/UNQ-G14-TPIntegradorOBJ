@@ -32,7 +32,7 @@ public class testUser {
 		appSEM = new AppSEM(true, false);
 		CelularUser celular = new CelularUser(1122334455, appSEM, gps);
 		usuario = new User(celular);
-
+		semTest.setCelulares(1122334455, 4000);
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
