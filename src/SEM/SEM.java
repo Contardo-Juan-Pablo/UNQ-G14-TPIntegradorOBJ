@@ -18,7 +18,7 @@ public class SEM {
 	private Map<Integer, Integer> celulares = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
 	private ArrayList<Infraccion> infraccionesLabradas = new ArrayList<Infraccion>();
 	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
-	private ArrayList<Entidades> entidadesParticipantes = new ArrayList<Entidades>();
+	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
 	private Operador operadorAsociado;
 	private int horaActual;
 	

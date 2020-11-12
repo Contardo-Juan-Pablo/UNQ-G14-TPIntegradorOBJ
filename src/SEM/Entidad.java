@@ -2,7 +2,7 @@ package SEM;
 
 import java.util.ArrayList;
 
-public class Entidades {
+public class Entidad {
 	private boolean estadoSubscripto = false;
 	private ArrayList<Informe> informes;
 	
