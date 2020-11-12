@@ -44,8 +44,6 @@ public class testSEM {
 	private ArrayList<Estacionamiento> estacionamientos;
 	
 	
-	
-	
 	@BeforeEach
 	public void setUp() throws Exception {
 		puntoDeVenta = new PuntoDeVenta(null, 1, sem);		
