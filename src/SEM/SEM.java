@@ -23,14 +23,9 @@ public class SEM {
 	private ArrayList<Infraccion> infraccionesLabradas = new ArrayList<Infraccion>();
 	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
-	private Operador operadorAsociado;
-	private int horaActual;
 	 
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// SECCIÓN INSPECTOR 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	/** 				SECCIÓN INSPECTOR 				**/
 	public void cargarInfraccion(String patente, String codigoDeInspector) {
 		LocalDateTime fechaYHoraActual = LocalDateTime.now();
 		Zona zonaDeInfraccion = this.zonaAlQuePerteneceInspector(codigoDeInspector);
@@ -43,11 +38,12 @@ public class SEM {
 		return this.zonasConSEM.stream().filter(zona -> zona.contieneAlInspector(codigoDeInspector)).collect(Collectors.toList()).get(0);
 	}
 
-
+	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
+		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
+	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// SECCIÓN OPERADOR 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/** 				SECCIÓN OPERADOR 				**/
+	
 
 	public void finalizarEstacionamientos() {
 		
@@ -56,12 +52,16 @@ public class SEM {
 		}
 	}
 	
+	public Boolean fueraDeHorario() {
+		return this.getHoraActual() >= 20;
+	}
+	
 	/** 				GETTERS AND SETTERS 				**/
 	public void realizarDescuentoDeSaldo(Integer numeroDeCelular, Integer costo) {
 		int nuevoSaldo = creditoAsociado.get(numeroDeCelular) - costo;
 		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);	
 	}
-		
+		 
 	
 	public void terminarEstacionamiento(int numeroCelular) {
 		for(Estacionamiento estacionamiento : estacionamientos) {
@@ -70,10 +70,7 @@ public class SEM {
 		}
 	}
 	
-	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
-		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
-	}
-	
+
 	
 	
 	
@@ -90,25 +87,6 @@ public class SEM {
 	}
 	///////////////////////
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void registrarCarga(CargaVirtual carga) {
 		cargasRealizadas.add(carga);
 		int celular = carga.getCelular();
@@ -123,7 +101,7 @@ public class SEM {
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
 		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
-			this.setEstacionamiento(estacionamiento);
+			this.almancenarNuevoEstacionamiento(estacionamiento);
 			this.enviarNotificaciones();
 		}
 	}
@@ -140,15 +118,6 @@ public class SEM {
 		return estacionamiento;
 	}
 	
-	public Boolean fueraDeHorario() {
-		return this.getHoraActual() >= 20;
-	}
-	
-	public void x(int celular, int carga) {
-		int nuevoSaldo = celulares.get(celular) + carga;
-		celulares.replace(celular, nuevoSaldo);
-	}
-	
 
 	
 	public void enviarNotificaciones() { //Consultar
@@ -158,79 +127,19 @@ public class SEM {
 		}
 	}
 	
-	public Boolean confirmarOperador(Operador operador) {
-		return operador == this.operadorAsociado;
-	}
-	
-	///////////////////////////////////////////
-	//////////////// GET Y SET ////////////////
-	///////////////////////////////////////////
-	
 	public void registrarCompra(CompraFisica compra) {
 		comprasRealizadas.add(compra);
 	}
-	
-	public void setCargasRealizadas(ArrayList<CargaVirtual> cargasRealizadas) {
-		this.cargasRealizadas = cargasRealizadas;
-	}
-
-	public ArrayList<Compra> getComprasRealizadas() {
-		return comprasRealizadas;
-	}
-
-	public void setCargasRealizada (CargaVirtual cargaVirtual) {
-		cargasRealizadas.add(cargaVirtual);
-	}
-	
-	public ArrayList<CargaVirtual> getCargasRealizadas() {
-		return cargasRealizadas;
-	}
-	
-	public void registrarZona(Zona zona) {
-		zonasConSEM.add(zona);
-	}
-	
-	public ArrayList<Zona> getZonasConSEM(){
-		return zonasConSEM;
-	}
 		
-	public void setEstacionamiento(Estacionamiento estacionamiento) {
+	public void almancenarNuevoEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
 	}
 	
-	public void setInfraccionLabrada(Infraccion infraccionGenerada) {
-		infraccionesLabradas.add(infraccionGenerada);
-	}
-	
-	public ArrayList<Infraccion> getInfraccionesLabradas(){
-	    return infraccionesLabradas;
-	}
-	
-
-	public Operador getOperadorAsociado() {
-		return operadorAsociado;
-	}
-
-	public void setOperadorAsociado(Operador operadorAsociado) {
-		this.operadorAsociado = operadorAsociado;
-	}
-	
-
 	public ArrayList<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
 	}
 
 	public int getHoraActual() {
 		return horaActual;
-	}
-
-	public void setHoraActual(int hora) {
-		horaActual = hora;
-	}
-
-	public void setEstacionamientos(ArrayList<Estacionamiento> estacionamientos) {
-		this.estacionamientos = estacionamientos;
-	}
-
-	
+	}	
 }
