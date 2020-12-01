@@ -1,94 +1,86 @@
 package App;
+import java.time.LocalDateTime;
+
+import Estacionamiento.Estacionamiento;
 import Estacionamiento.EstacionamientoViaApp;
 import SEM.SEM;
 
-public class AppSEM { 
-	private boolean estadoActual;
-	private boolean estadoAnterior;
-	private boolean modoAutomatico = false;
+public class AppSEM implements MovementSensor { 
+	private Estado estadoDelUsuario;
+	private Modo modoAutomatico = Modo.DESACTIVADO;
+	private SEM semAsociado;
+	private Integer saldoActual;
 	
-	public AppSEM(boolean estadoActual, boolean estadoAnterior) {
-		this.estadoActual = estadoActual;
-		this.estadoAnterior = estadoAnterior;
-	}
+	/**             CONSTRUCTOR DE CLASE                  **/
+	public AppSEM(Estado estadoDelUsuario, SEM semAsociado) {
+		this.estadoDelUsuario = estadoDelUsuario;
+		this.semAsociado = semAsociado;
+	} 
  
-	public int solicitarSaldoSEM(SEM sem, int numeroCelular) {
-		return sem.saldoCelular(numeroCelular);
-	}
-    
-	public void IniciarEstacionamiento(String patente, int horasReservadas, SEM sem, int numeroCelular) {
-		int horaActual = sem.getHoraActual();
-		int saldoActual = solicitarSaldoSEM(sem,numeroCelular);
-		int costoActual = sem.costoActualPorHoraEnFranjaHorario(horaActual, horasReservadas);
-		int horaSalida = 0;
+	
+	/**             GETTERS AND SETTERS                  **/
+	
+	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
+		Integer horaActual = LocalDateTime.now().getHour();
+		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horaActual,horasReservadas);
 		
-		if(saldoActual >= costoActual) {
-			sem.actualizarSaldo(numeroCelular, sem.costoActualPorHora(horaActual, horasReservadas));
-			EstacionamientoViaApp estacionamiento = new EstacionamientoViaApp(patente, horaActual, horaActual + horasReservadas, numeroCelular);
-			sem.guardarEstacionamiento(estacionamiento);
-				if (horaActual+horasReservadas>=20) {
-						System.out.printf("Hora inicial: " + horaActual);
-						System.out.printf("Hora final: " + 20);
-			    } else {
-						System.out.printf("Hora inicial: " + horaActual);
-						System.out.printf("Hora final: " + horaActual+horasReservadas);
-				}
-		} else { System.out.println("Saldo insuficiente. Estacionamiento no permitido."); }
-	}
-	 
-	public void finalizarEstacionamiento(SEM sem, int numeroCelular) {		
-		if(sem.buscarEstacionamiento(numeroCelular) == null) {
-			System.out.printf("No hay un estacionamiento");
+		if(getSaldoActual() >= costoActual) {
+			semAsociado.realizarDescuentoDeSaldo(numeroCelular, costoActual);
+			EstacionamientoViaApp estacionamiento = new EstacionamientoViaApp(patente, horasReservadas, numeroCelular); 
+			semAsociado.guardarEstacionamiento(estacionamiento);
 		}
-		else { sem.terminarEstacionamiento(numeroCelular); }
 	}
 	
-	public void alertaDeInicioEstacionamiento(String patente, SEM sem) {
-		if(!this.estadoActual && !sem.consultarPatenteSEM(patente)) {
-			System.out.println("No inicio un estacionamiento");
-		}
+	public void finalizarEstacionamientoViaApp(Integer numeroCelular) {		
+		semAsociado.terminarEstacionamiento(numeroCelular);
 	}
-
-	public void alertaDeFinEstacionamiento(String patente, SEM sem) {
-		if(this.estadoActual && sem.consultarPatenteSEM(patente)) {
-			System.out.println("No finalizo el estacionamiento");
+	
+	
+	public void iniciarEstacionamientoAutomatico(int numeroCelular,String patente) {
+		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(patente)) {
+			iniciarEstacionamientoViaApp(patente,1, numeroCelular);
+			lanzarAlerta("El estacionamiento a inciado");
 		}
 	}
 	
 	public void finalizarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
-		// Cada hora se actualiza el estacionamiento. Es decir, se comprueba si el estado actual la persona cambio.
-		if(this.estadoActual && sem.consultarPatenteSEM(patente)) {
-			this.finalizarEstacionamiento(sem, numeroCelular);
-			System.out.println("El estacionamiento a finalizado");
+		if(getEstadoDelUsuario() == Estado.MANEJANDO && sem.hayEstacionamientoVigenteConPatente(patente)) {
+			finalizarEstacionamientoViaApp(numeroCelular);
+			lanzarAlerta("El estacionamiento a finalizado");
 		}
 	}
 	
-	public void iniciarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
-		// Cada hora se actualiza el estacionamiento. Es decir, se comprueba si el estado actual la persona cambio.
-		if(!this.estadoActual && !sem.consultarPatenteSEM(patente)) {
-			this.IniciarEstacionamiento(patente,1, sem, numeroCelular);
-			System.out.println("El estacionamiento a iniciado");
-		}
-	}
-
-	public void setEstadoActual(boolean b) {
-		estadoActual = b;
-		estadoAnterior = !b;
-	}
-
-	public void cambiarModoApp() {
-		this.modoAutomatico = !modoAutomatico;
-	}	
+	/** Cuando se tenga de manera precisa como mostrar el mensaje el usuario, el metodo ya esta definido, solo resta agregarle comprtamiento **/
+	public void lanzarAlerta(String mensaje) {}
 	
-	public Boolean getModoAutomatico() {
+
+	@Override
+	public void driving() {
+		estadoDelUsuario = Estado.MANEJANDO;
+	}
+
+	@Override
+	public void walking() {
+		estadoDelUsuario = Estado.CAMINANDO;	
+	}
+	
+	public Modo getModoAutomatico() {
 		return modoAutomatico;
 	}
 
-	public Object getEstadoAnterior() {
-		return estadoAnterior;
+	public Estado getEstadoDelUsuario() {
+		return estadoDelUsuario;
+	}
+	
+	private Integer getSaldoActual() {
+		return saldoActual;
 	}
 
-	public boolean getEstadoActual() {
-		return estadoActual;
-	}
+
+	
+
+	
+
+	
+
 }

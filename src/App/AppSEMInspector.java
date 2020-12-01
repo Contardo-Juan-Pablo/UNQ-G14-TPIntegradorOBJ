@@ -1,21 +1,15 @@
 package App;
-import Persona.Inspector;
 import SEM.SEM;
 
-
 public class AppSEMInspector {
-	int codigoDeApp;
+	private SEM semAsociado;
 	
-	public AppSEMInspector(int codigoDeApp) {
-		this.codigoDeApp = codigoDeApp;
-	}
-	
-	public Boolean consultarPatenteSEM(String patente, SEM semActual) {
-		return semActual.consultarPatenteSEM(patente);
+	public Boolean consultarPatenteSEM(String patente) {
+		return semAsociado.hayEstacionamientoVigenteConPatente(patente);
 	}
 
-	public void gestionarInfraccion(String patente, Inspector inspector, SEM semActual) {
-		semActual.cargarInfraccion(patente, inspector);	
+	public void gestionarInfraccion(String patente, String codigoDeInspector) {
+		semAsociado.cargarInfraccion(patente, codigoDeInspector);	
 	} 
 	
 }

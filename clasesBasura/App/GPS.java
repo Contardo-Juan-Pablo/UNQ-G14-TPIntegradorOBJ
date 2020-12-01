@@ -1,5 +1,6 @@
 package App;
-import javafx.util.Pair;
+
+
 
 public class GPS {
 	private Pair<Integer,Integer> posicion;

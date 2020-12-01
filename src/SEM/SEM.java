@@ -1,8 +1,12 @@
 package SEM;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import Compra.CargaVirtual;
 import Compra.Compra;
 import Compra.CompraFisica;
@@ -15,46 +19,31 @@ public class SEM {
 	private ArrayList<Compra> comprasRealizadas = new ArrayList<Compra>();
 	private ArrayList<CargaVirtual> cargasRealizadas = new ArrayList<CargaVirtual>();
 	private ArrayList<Zona> zonasConSEM = new ArrayList<Zona>();
-	private Map<Integer, Integer> celulares = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
+	private Map<Integer, Integer> creditoAsociado = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
 	private ArrayList<Infraccion> infraccionesLabradas = new ArrayList<Infraccion>();
 	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
 	private Operador operadorAsociado;
 	private int horaActual;
-	
+	 
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//// SECCIÓN INSPECTOR 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void cargarInfraccion(String patente, Inspector inspector) {
-		Calendar fechaYHoraActual = Calendar.getInstance();
-		Zona zonaDeInfraccion = this.zonaAlQuePerteneceInspector(inspector);
-		Infraccion infraccionGenerada = new Infraccion(patente, fechaYHoraActual, zonaDeInfraccion, inspector);
+	public void cargarInfraccion(String patente, String codigoDeInspector) {
+		LocalDateTime fechaYHoraActual = LocalDateTime.now();
+		Zona zonaDeInfraccion = this.zonaAlQuePerteneceInspector(codigoDeInspector);
+		Infraccion infraccionGenerada = new Infraccion(patente, fechaYHoraActual, zonaDeInfraccion, codigoDeInspector);
 		infraccionesLabradas.add(infraccionGenerada);
 	}
 	
-	public Zona zonaAlQuePerteneceInspector(Inspector inspector) {
+	public Zona zonaAlQuePerteneceInspector(String codigoDeInspector) {
 		/** El inspector siempre pertenece a alguna zona. No puede haber inspector sin ella. */
-		Zona zona = null;
-		for(int i = 0; i < zonasConSEM.size(); i++) {
-			if(zonasConSEM.get(i).contieneAlInspector(inspector)) {
-					zona = zonasConSEM.get(i);
-			}
-		}
-		return zona;
+		return this.zonasConSEM.stream().filter(zona -> zona.contieneAlInspector(codigoDeInspector)).collect(Collectors.toList()).get(0);
 	}
 
-	public boolean consultarPatenteSEM(String patente) {
-		Boolean patenteVigenteEncontrada = false;
-		for(int i=0; i < this.getEstacionamientos().size(); i++){
-			
-			if(this.getEstacionamientos().get(i).getPatente() == patente) {
-				patenteVigenteEncontrada = this.getEstacionamientos().get(i).estaVigente(this);
-			}
-		}
-		return patenteVigenteEncontrada;
-	}
+
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//// SECCIÓN OPERADOR 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,16 +56,65 @@ public class SEM {
 		}
 	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//// SEM FUNCIONES 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/** 				GETTERS AND SETTERS 				**/
+	public void realizarDescuentoDeSaldo(Integer numeroDeCelular, Integer costo) {
+		int nuevoSaldo = creditoAsociado.get(numeroDeCelular) - costo;
+		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);	
+	}
+		
+	
+	public void terminarEstacionamiento(int numeroCelular) {
+		for(Estacionamiento estacionamiento : estacionamientos) {
+			estacionamientos.remove(estacionamiento);
+			this.enviarNotificaciones();
+		}
+	}
+	
+	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
+		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
+	}
+	
+	
+	
+	
+	// PARA POSIBLE ELIMINACION 
+	public ArrayList<String> getPatentesDeEstacionamientos() {
+		ArrayList<String> listaDePatentes = new ArrayList<String>();
+		this.estacionamientos.stream().forEach(estacionamiento -> listaDePatentes.add(estacionamiento.getPatente()));
+		return listaDePatentes;
+		
+	}
+	
+	public Boolean estaLaPatenteBuscada(String patenteBuscada) {
+		return this.getPatentesDeEstacionamientos().stream().filter(patente -> (patente == patenteBuscada)).collect(Collectors.toList()).contains(patenteBuscada);
+	}
+	///////////////////////
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void registrarCarga(CargaVirtual carga) {
 		cargasRealizadas.add(carga);
 		int celular = carga.getCelular();
 		
 		if(celulares.containsKey(celular)) {
-			this.actualizarSaldo(celular, carga.getCarga());
+			this.realizarCompraEstacionamiento(celular, carga.getCarga());
 		} else {
 			this.setCelulares(celular, carga.getCarga());
 		}
@@ -90,14 +128,7 @@ public class SEM {
 		}
 	}
 
-	public void terminarEstacionamiento(int numeroCelular) {
-		for(int i=0; i < estacionamientos.size(); i++){
-			if(estacionamientos.get(i).esNumeroCelularBuscado(numeroCelular)) {
-				estacionamientos.remove(i);
-				this.enviarNotificaciones();
-			}
-		}
-	}
+
 	
 	public Estacionamiento buscarEstacionamiento(int numeroCelular) {
 		Estacionamiento estacionamiento = null;
@@ -109,34 +140,16 @@ public class SEM {
 		return estacionamiento;
 	}
 	
-	///////////////////////////////////////////
-	///////////// SEM FUNCIONES AUX ///////////
-	///////////////////////////////////////////
-	public int costoActualPorHora(int horaActual, int horasReservadas) {//Consultar
-		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		int costo = (horaActual > 7 && horaActual < 20) ? horasReservadas * 40 : 0;
-		return costo;
-	}
-	
-	public int costoActualPorHoraEnFranjaHorario(int horaActual, int horasReservadas) {
-		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		int contador = 0;
-		for(int i = horaActual; i<=horaActual+horasReservadas; i++) {
-			if(i > 7 && i < 20) {
-				contador++;
-			}			
-		}
-		return 40 * contador;
-	}
-	
 	public Boolean fueraDeHorario() {
 		return this.getHoraActual() >= 20;
 	}
 	
-	public void actualizarSaldo(int celular, int carga) {
+	public void x(int celular, int carga) {
 		int nuevoSaldo = celulares.get(celular) + carga;
 		celulares.replace(celular, nuevoSaldo);
 	}
+	
+
 	
 	public void enviarNotificaciones() { //Consultar
 		for(int i=0; i < entidadesParticipantes.size(); i++){
@@ -193,13 +206,6 @@ public class SEM {
 	    return infraccionesLabradas;
 	}
 	
-	public void setCelulares(Integer celular, Integer saldo) {
-		celulares.put(celular, saldo);
-	}
-	
-	public int saldoCelular(int celular) {
-		return celulares.get(celular);
-	}
 
 	public Operador getOperadorAsociado() {
 		return operadorAsociado;
@@ -209,9 +215,6 @@ public class SEM {
 		this.operadorAsociado = operadorAsociado;
 	}
 	
-	public Map<Integer, Integer> getCelulares() {
-		return celulares;
-	}
 
 	public ArrayList<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
@@ -228,4 +231,6 @@ public class SEM {
 	public void setEstacionamientos(ArrayList<Estacionamiento> estacionamientos) {
 		this.estacionamientos = estacionamientos;
 	}
+
+	
 }

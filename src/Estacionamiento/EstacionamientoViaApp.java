@@ -3,16 +3,17 @@ package Estacionamiento;
 public class EstacionamientoViaApp extends Estacionamiento {
 	private int numeroCelularOrigen;
 	
-	public EstacionamientoViaApp(String automovilEstacionado, int horaDeInicio, int horaDeFinalizacion, int numeroCelularOrigen) {
-		super(automovilEstacionado, horaDeInicio, horaDeFinalizacion);
+	public EstacionamientoViaApp(String patente, Integer cantidadDeHorasReservadas, Integer numeroCelularOrigen) {
+		super(patente, cantidadDeHorasReservadas);
 		this.numeroCelularOrigen = numeroCelularOrigen;
 	}
 
-	public int getNumeroCelularOrigen() {
+	public Integer getNumeroCelularOrigen() {
 		return numeroCelularOrigen;
 	}
 	
-	public Boolean esNumeroCelularBuscado(int numeroCelular) {
+	public Boolean esNumeroCelularBuscado(Integer numeroCelular) {
 		return numeroCelularOrigen == numeroCelular;
 	}
+	
 }
