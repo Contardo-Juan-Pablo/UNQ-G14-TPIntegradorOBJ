@@ -5,12 +5,11 @@ import App.Modo;
 public class Estacionamiento {	
 	private String patente;
 	private Integer cantidadDeHorasReservadas;
-	private Modo estadoDelEstacionamiento;
+	private Modo estadoDelEstacionamiento = Modo.ACTIVADO;
 	
 	public Estacionamiento(String patente, Integer cantidadDeHorasReservadas) {
 		this.patente = patente;
-		this.cantidadDeHorasReservadas = cantidadDeHorasReservadas;
-		this.estadoDelEstacionamiento = Modo.ACTIVADO; 
+		this.cantidadDeHorasReservadas = cantidadDeHorasReservadas; 
 	}
 	
 	public Boolean estaActivo() {
@@ -29,18 +28,22 @@ public class Estacionamiento {
 		return patente;	
 	}
 	
-	public static Integer costoActualPorHoraEnFranjaHorario(int horaActual, int horasReservadas) {
-		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		int contador = 0;
-		for(int i = horaActual; i<=horaActual + horasReservadas; i++) {
-			if(i > 7 && i < 20) {
-				contador++;
-			}			
-		}
-		return 40 * contador;
+	public static int costoActualPorHoraEnFranjaHorario(int horasReservadas) {
+		if(getHoraActual() <= 7) {															
+			return 40 * (getHoraActual() + horasReservadas - 7);	
+		} 
+		
+		if(getHoraActual() + horasReservadas >= 20) {										
+			return 40 * (20 - getHoraActual());	
+		} 	
+		return 40 * horasReservadas;
 	}
 
-	public Object finalizar() {
-		return estadoDelEstacionamiento = Modo.DESACTIVADO;
+	public void finalizar() {
+		estadoDelEstacionamiento = Modo.DESACTIVADO;
+	}
+	
+	public static int getHoraActual() {
+		return Calendar.HOUR_OF_DAY;
 	}
 }

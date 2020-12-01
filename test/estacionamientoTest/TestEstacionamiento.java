@@ -1,24 +1,24 @@
 package estacionamientoTest;
 
-import org.junit.Test;
-import Estacionamiento.Estacionamiento;
 
+import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
+import Estacionamiento.Estacionamiento;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import java.util.Calendar;
 
 public class TestEstacionamiento {
-	
-	
+
 	@Test
 	public void getPatente() {
-		Estacionamiento estacionamiento = new Estacionamiento("AA-12-BB", 4);
-		
-		assertEquals("AA-12-BB", estacionamiento.getPatente());
+		Estacionamiento estacionamientoX = new Estacionamiento("AA-12-BB", 4);
+		assertEquals("AA-12-BB", estacionamientoX.getPatente());
 	}
-	
-	
 	
 	@Test
 	public void esUnEstacionamientoDentroDeFranjaHoraria() {
@@ -53,4 +53,55 @@ public class TestEstacionamiento {
 		
 		assertFalse(estacionamiento.esNumeroCelularBuscado(11111));
 	}
+	
+	@Test
+	public void setFinalizar() {
+		Estacionamiento estacionamientoX = new Estacionamiento("AA-12-BB", 4);
+		estacionamientoX.finalizar();
+		assertFalse(estacionamientoX.estaActivo());
+	}
+	
+	
+	@Test
+	public void costoActualPorHoraEnFranjaHorarioMenorA7() {
+		try (MockedStatic<Estacionamiento> theMock = Mockito.mockStatic(Estacionamiento.class)) {
+			  theMock.when(() -> Estacionamiento.getHoraActual()).thenReturn(6);
+			  theMock.when(() -> Estacionamiento.costoActualPorHoraEnFranjaHorario(3)).thenCallRealMethod();
+			   
+			  assertEquals(80, Estacionamiento.costoActualPorHoraEnFranjaHorario(3));
+		}
+	}
+	
+	@Test
+	public void costoActualPorHoraEnFranjaHorarioMayorA20() {
+		try (MockedStatic<Estacionamiento> theMock = Mockito.mockStatic(Estacionamiento.class)) {
+			  theMock.when(() -> Estacionamiento.getHoraActual()).thenReturn(19);
+			  theMock.when(() -> Estacionamiento.costoActualPorHoraEnFranjaHorario(5)).thenCallRealMethod();
+			   
+			  assertEquals(40, Estacionamiento.costoActualPorHoraEnFranjaHorario(5));
+		}
+	}
+	
+	@Test
+	public void costoActualPorHoraEnFranjaHorario() {
+		try (MockedStatic<Estacionamiento> theMock = Mockito.mockStatic(Estacionamiento.class)) {
+			  theMock.when(() -> Estacionamiento.getHoraActual()).thenReturn(9);
+			  theMock.when(() -> Estacionamiento.costoActualPorHoraEnFranjaHorario(5)).thenCallRealMethod();
+			   
+			  assertEquals(200, Estacionamiento.costoActualPorHoraEnFranjaHorario(5));
+		}
+	}
+	
+	@Test
+	public void getHoraActual() {
+		int horaActual = Calendar.HOUR_OF_DAY;
+		try (MockedStatic<Estacionamiento> theMock = Mockito.mockStatic(Estacionamiento.class)) {
+			  theMock.when(() -> Estacionamiento.getHoraActual()).thenCallRealMethod();
+			  
+			  assertEquals(horaActual, Estacionamiento.getHoraActual());
+		}
+	}
+	
+	
+	
 }

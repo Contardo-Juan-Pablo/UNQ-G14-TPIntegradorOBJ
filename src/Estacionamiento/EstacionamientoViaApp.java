@@ -8,11 +8,11 @@ public class EstacionamientoViaApp extends Estacionamiento {
 		this.numeroCelularOrigen = numeroCelularOrigen;
 	}
 
-	public Integer getNumeroCelularOrigen() {
+	public int getNumeroCelularOrigen() {
 		return numeroCelularOrigen;
 	}
 	
 	public Boolean esNumeroCelularBuscado(Integer numeroCelular) {
-		return numeroCelularOrigen == numeroCelular;
+		return this.getNumeroCelularOrigen() == numeroCelular;
 	}
 }

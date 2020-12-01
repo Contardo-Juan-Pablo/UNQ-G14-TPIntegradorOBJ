@@ -1,12 +1,10 @@
 package SEM;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import Compra.CargaVirtual;
 import Compra.Compra;
 import EspaciosFisicos.Zona;
@@ -23,7 +21,7 @@ public class SEM {
 	 
 	/** 				SECCIÓN INSPECTOR 				**/
 	public void cargarInfraccion(String patente, String codigoDeInspector) {
-		LocalDateTime fechaYHoraActual = LocalDateTime.now();
+		Calendar fechaYHoraActual = Calendar.getInstance();
 		Zona zonaDeInfraccion = this.zonaAlQuePerteneceInspector(codigoDeInspector);
 		Infraccion infraccionGenerada = new Infraccion(patente, fechaYHoraActual, zonaDeInfraccion, codigoDeInspector);
 		infraccionesLabradas.add(infraccionGenerada);
@@ -46,7 +44,7 @@ public class SEM {
 	}
 	
 	public Boolean fueraDeHorario() {
-		int horaActual = LocalDateTime.now().getHour();
+		int horaActual = Calendar.HOUR_OF_DAY;
 		return horaActual >= 20;
 	}
 	
@@ -84,7 +82,7 @@ public class SEM {
 	}
 	
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		int horaActual = LocalDateTime.now().getHour();
+		int horaActual = Calendar.HOUR_OF_DAY;
 		if(horaActual >= 7 && horaActual <= 20) {
 			this.almancenarNuevoEstacionamiento(estacionamiento);
 			this.enviarNotificaciones();

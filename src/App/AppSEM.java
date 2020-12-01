@@ -1,6 +1,4 @@
 package App;
-import java.time.LocalDateTime;
-
 import Estacionamiento.Estacionamiento;
 import Estacionamiento.EstacionamientoViaApp;
 import SEM.SEM;
@@ -19,8 +17,7 @@ public class AppSEM implements MovementSensor {
  
 	/**             GETTERS AND SETTERS                  **/
 	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
-		Integer horaActual = LocalDateTime.now().getHour();
-		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horaActual,horasReservadas);
+		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas);
 		
 		if(getSaldoActual() >= costoActual) {
 			semAsociado.realizarDescuentoDeSaldo(numeroCelular, costoActual);
