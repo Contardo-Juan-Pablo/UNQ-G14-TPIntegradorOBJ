@@ -5,32 +5,32 @@ import Persona.Inspector;
 import javafx.util.Pair;
 
 public class Zona {
-	private ArrayList<PuntoDeVenta> PuntosDeVentaDisponibles;
-	private Inspector InspectorAsigando;
+	private ArrayList<PuntoDeVenta> puntosDeVentaDisponibles;
+	private String codigoInspector;
 	
-	public Zona(ArrayList<PuntoDeVenta> puntosDeVentaDisponibles, Inspector inspectorAsigando) {
-		this.PuntosDeVentaDisponibles = puntosDeVentaDisponibles;
-		this.InspectorAsigando = inspectorAsigando;
+	public Zona(ArrayList<PuntoDeVenta> puntosDeVentaDisponibles, String codigoInspector) {
+		this.puntosDeVentaDisponibles = puntosDeVentaDisponibles;
+		this.codigoInspector = codigoInspector;
 	}
 	
 	public void registrarPuntoDeVenta(PuntoDeVenta puntoDeVenta) {
-		PuntosDeVentaDisponibles.add(puntoDeVenta);
+		puntosDeVentaDisponibles.add(puntoDeVenta);
 	}
 
-	public Inspector getInspectorAsigando() {
-		return InspectorAsigando;
+	public String getInspectorAsigando() {
+		return codigoInspector;
 	}
 	
 	public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
 		return true;
 	}
 	
-	public boolean contieneAlInspector(Inspector inspector) {
-		return inspector == this.getInspectorAsigando();
+	public boolean contieneAlInspector(String inspector) {
+		return inspector == getInspectorAsigando();
 	}
 
 	public ArrayList<PuntoDeVenta> getPuntosDeVentaDisponibles() {
-		return PuntosDeVentaDisponibles;
+		return puntosDeVentaDisponibles;
 	}
 	
 }

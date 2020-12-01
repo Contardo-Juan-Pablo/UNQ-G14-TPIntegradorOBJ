@@ -1,22 +1,21 @@
 package EspaciosFisicos;
 
 import java.util.ArrayList;
-
 import Compra.CargaVirtual;
 import Compra.CompraFisica;
-import Estacionamiento.EstacionamientoCompraFisica;
+import Estacionamiento.Estacionamiento;
 import SEM.SEM;
 
 public class PuntoDeVenta {
-	ArrayList<Integer> númeroDeControl;
-	Integer idPuntoDeVenta;
-	SEM sem;
+	private ArrayList<Integer> númeroDeControl;
+	private Integer idPuntoDeVenta;
+	private SEM sem;
 	
 	public PuntoDeVenta(ArrayList<Integer> númeroDeControl, Integer idPuntoDeVenta, SEM sem) {
 		this.númeroDeControl = númeroDeControl;
 		this.idPuntoDeVenta = idPuntoDeVenta;
 		this.sem = sem;
-	}
+	} 
 
 	public Integer lastControl() {
 		return new Integer(númeroDeControl.size());
@@ -26,7 +25,7 @@ public class PuntoDeVenta {
 		return idPuntoDeVenta;
 	}
 
-	public void IngresarCompra(CompraFisica compra, EstacionamientoCompraFisica estacionamiento) {
+	public void IngresarCompra(CompraFisica compra, Estacionamiento estacionamiento) {
 		sem.registrarCompra(compra);
 		sem.guardarEstacionamiento(estacionamiento);
 	}
