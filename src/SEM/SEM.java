@@ -1,19 +1,16 @@
 package SEM;
-import java.io.IOException;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Compra.CargaVirtual;
 import Compra.Compra;
-import Compra.CompraFisica;
 import EspaciosFisicos.Zona;
 import Estacionamiento.Estacionamiento;
-import Persona.Inspector;
-import Persona.Operador;
 
 public class SEM {
 	private ArrayList<Compra> comprasRealizadas = new ArrayList<Compra>();
@@ -24,7 +21,6 @@ public class SEM {
 	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
 	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
 	 
-	
 	/** 				SECCIÓN INSPECTOR 				**/
 	public void cargarInfraccion(String patente, String codigoDeInspector) {
 		LocalDateTime fechaYHoraActual = LocalDateTime.now();
@@ -43,25 +39,22 @@ public class SEM {
 	}
 	
 	/** 				SECCIÓN OPERADOR 				**/
-	
-
 	public void finalizarEstacionamientos() {
-		
 		if(this.fueraDeHorario()) {
-			estacionamientos.clear();
+			this.estacionamientos.stream().forEach(estacionamiento -> estacionamiento.finalizar());
 		}
 	}
 	
 	public Boolean fueraDeHorario() {
-		return this.getHoraActual() >= 20;
+		int horaActual = LocalDateTime.now().getHour();
+		return horaActual >= 20;
 	}
 	
 	/** 				GETTERS AND SETTERS 				**/
 	public void realizarDescuentoDeSaldo(Integer numeroDeCelular, Integer costo) {
-		int nuevoSaldo = creditoAsociado.get(numeroDeCelular) - costo;
-		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);	
+		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) - costo;
+		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
 	}
-		 
 	
 	public void terminarEstacionamiento(int numeroCelular) {
 		for(Estacionamiento estacionamiento : estacionamientos) {
@@ -69,10 +62,6 @@ public class SEM {
 			this.enviarNotificaciones();
 		}
 	}
-	
-
-	
-	
 	
 	// PARA POSIBLE ELIMINACION 
 	public ArrayList<String> getPatentesDeEstacionamientos() {
@@ -88,25 +77,19 @@ public class SEM {
 	///////////////////////
 	
 	public void registrarCarga(CargaVirtual carga) {
+		int numeroDeCelular = carga.getCelular();
+		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) + carga.getCarga();
+		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
 		cargasRealizadas.add(carga);
-		int celular = carga.getCelular();
-		
-		if(celulares.containsKey(celular)) {
-			this.realizarCompraEstacionamiento(celular, carga.getCarga());
-		} else {
-			this.setCelulares(celular, carga.getCarga());
-		}
 	}
 	
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		horaActual = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
+		int horaActual = LocalDateTime.now().getHour();
+		if(horaActual >= 7 && horaActual <= 20) {
 			this.almancenarNuevoEstacionamiento(estacionamiento);
 			this.enviarNotificaciones();
 		}
 	}
-
-
 	
 	public Estacionamiento buscarEstacionamiento(int numeroCelular) {
 		Estacionamiento estacionamiento = null;
@@ -118,8 +101,6 @@ public class SEM {
 		return estacionamiento;
 	}
 	
-
-	
 	public void enviarNotificaciones() { //Consultar
 		for(int i=0; i < entidadesParticipantes.size(); i++){
 			if(entidadesParticipantes.get(i).isEstadoSubscripto())
@@ -127,7 +108,7 @@ public class SEM {
 		}
 	}
 	
-	public void registrarCompra(CompraFisica compra) {
+	public void registrarCompra(Compra compra) {
 		comprasRealizadas.add(compra);
 	}
 		
@@ -137,9 +118,5 @@ public class SEM {
 	
 	public ArrayList<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
-	}
-
-	public int getHoraActual() {
-		return horaActual;
 	}	
 }

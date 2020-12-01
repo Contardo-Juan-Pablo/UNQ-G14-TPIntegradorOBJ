@@ -2,7 +2,7 @@ package EspaciosFisicos;
 
 import java.util.ArrayList;
 import Compra.CargaVirtual;
-import Compra.CompraFisica;
+import Compra.Compra;
 import Estacionamiento.Estacionamiento;
 import SEM.SEM;
 
@@ -18,14 +18,14 @@ public class PuntoDeVenta {
 	} 
 
 	public Integer lastControl() {
-		return new Integer(númeroDeControl.size());
+		return Integer.valueOf(númeroDeControl.size());
 	}
 
 	public Integer getId() {
 		return idPuntoDeVenta;
 	}
 
-	public void IngresarCompra(CompraFisica compra, Estacionamiento estacionamiento) {
+	public void IngresarCompra(Compra compra, Estacionamiento estacionamiento) {
 		sem.registrarCompra(compra);
 		sem.guardarEstacionamiento(estacionamiento);
 	}

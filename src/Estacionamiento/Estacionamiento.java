@@ -12,7 +12,6 @@ public class Estacionamiento {
 		this.cantidadDeHorasReservadas = cantidadDeHorasReservadas;
 		this.estadoDelEstacionamiento = Modo.ACTIVADO; 
 	}
-
 	
 	public Boolean estaActivo() {
 		return estadoDelEstacionamiento.equals(Modo.ACTIVADO);
@@ -39,5 +38,9 @@ public class Estacionamiento {
 			}			
 		}
 		return 40 * contador;
+	}
+
+	public Object finalizar() {
+		return estadoDelEstacionamiento = Modo.DESACTIVADO;
 	}
 }

@@ -17,9 +17,7 @@ public class AppSEM implements MovementSensor {
 		this.semAsociado = semAsociado;
 	} 
  
-	
 	/**             GETTERS AND SETTERS                  **/
-	
 	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
 		Integer horaActual = LocalDateTime.now().getHour();
 		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horaActual,horasReservadas);
@@ -34,7 +32,6 @@ public class AppSEM implements MovementSensor {
 	public void finalizarEstacionamientoViaApp(Integer numeroCelular) {		
 		semAsociado.terminarEstacionamiento(numeroCelular);
 	}
-	
 	
 	public void iniciarEstacionamientoAutomatico(int numeroCelular,String patente) {
 		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(patente)) {
@@ -53,7 +50,6 @@ public class AppSEM implements MovementSensor {
 	/** Cuando se tenga de manera precisa como mostrar el mensaje el usuario, el metodo ya esta definido, solo resta agregarle comprtamiento **/
 	public void lanzarAlerta(String mensaje) {}
 	
-
 	@Override
 	public void driving() {
 		estadoDelUsuario = Estado.MANEJANDO;
@@ -75,12 +71,4 @@ public class AppSEM implements MovementSensor {
 	private Integer getSaldoActual() {
 		return saldoActual;
 	}
-
-
-	
-
-	
-
-	
-
 }

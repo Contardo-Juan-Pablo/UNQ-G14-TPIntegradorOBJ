@@ -1,7 +1,6 @@
 package EspaciosFisicos;
 
 import java.util.ArrayList;
-import Persona.Inspector;
 import javafx.util.Pair;
 
 public class Zona {

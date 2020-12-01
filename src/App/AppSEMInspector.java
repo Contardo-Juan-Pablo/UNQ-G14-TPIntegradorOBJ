@@ -10,6 +10,5 @@ public class AppSEMInspector {
 
 	public void gestionarInfraccion(String patente, String codigoDeInspector) {
 		semAsociado.cargarInfraccion(patente, codigoDeInspector);	
-	} 
-	
+	}
 }

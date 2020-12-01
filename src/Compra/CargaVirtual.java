@@ -1,14 +1,10 @@
 package Compra;
 
-import java.util.Calendar;
-import EspaciosFisicos.PuntoDeVenta;
-
-public class CargaVirtual extends Compra {
+public class CargaVirtual {
 	private int montoDeRecarga;
 	private int celular;
 	
-	public CargaVirtual(String códigoDeControl, PuntoDeVenta puntoDeVenta, Calendar fechaYHoraDeCarga,int montoDeRecarga, int numeroDeCelular) {
-		super(códigoDeControl, puntoDeVenta, fechaYHoraDeCarga);
+	public CargaVirtual(int montoDeRecarga, int numeroDeCelular) {
 		this.montoDeRecarga = montoDeRecarga;
 		this.celular = numeroDeCelular;
 	}
