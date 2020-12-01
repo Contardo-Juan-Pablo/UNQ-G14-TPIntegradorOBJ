@@ -21,8 +21,7 @@ public class AppSEM implements MovementSensor {
 		
 		if(getSaldoActual() >= costoActual) {
 			semAsociado.realizarDescuentoDeSaldo(numeroCelular, costoActual);
-			EstacionamientoViaApp estacionamiento = new EstacionamientoViaApp(patente, horasReservadas, numeroCelular); 
-			semAsociado.guardarEstacionamiento(estacionamiento);
+			semAsociado.guardarEstacionamiento(new EstacionamientoViaApp(patente, horasReservadas, numeroCelular));
 		}
 	}
 	

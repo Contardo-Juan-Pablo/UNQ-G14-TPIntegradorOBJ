@@ -4,6 +4,7 @@ import App.Modo;
 
 public class Estacionamiento {	
 	private String patente;
+	@SuppressWarnings("unused")
 	private Integer cantidadDeHorasReservadas;
 	private Modo estadoDelEstacionamiento = Modo.ACTIVADO;
 	

@@ -1,6 +1,8 @@
 package EspaciosFisicos;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import Compra.CargaVirtual;
 import Compra.Compra;
 import Estacionamiento.Estacionamiento;
@@ -17,24 +19,24 @@ public class PuntoDeVenta {
 		this.sem = sem;
 	} 
 
+	public void IngresarCompra(int cantidadDeHorasReservadas, String patente) {
+		sem.registrarCompra(new Compra(this.getCodigoDeControl(),this, Calendar.getInstance(), cantidadDeHorasReservadas));
+		sem.guardarEstacionamiento(new Estacionamiento(patente, cantidadDeHorasReservadas));
+	}
+
+	public void IngresarCarga(int numeroDeCelular, int montoDeRecarga) {
+		sem.registrarCarga(new CargaVirtual(montoDeRecarga, numeroDeCelular));
+	}
+	
+	public String getCodigoDeControl() {
+		return this.getId().toString() + this.lastControl().toString();
+	}
+	
 	public Integer lastControl() {
 		return Integer.valueOf(númeroDeControl.size());
 	}
 
 	public Integer getId() {
 		return idPuntoDeVenta;
-	}
-
-	public void IngresarCompra(Compra compra, Estacionamiento estacionamiento) {
-		sem.registrarCompra(compra);
-		sem.guardarEstacionamiento(estacionamiento);
-	}
-
-	public void IngresarCarga(CargaVirtual carga) {
-		sem.registrarCarga(carga);
-	}
-	
-	public String getCodigoDeControl() {
-		return this.getId().toString() + this.lastControl().toString();
 	}
 }
