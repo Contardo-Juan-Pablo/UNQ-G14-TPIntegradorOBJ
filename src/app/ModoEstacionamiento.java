@@ -1,4 +1,4 @@
-package App;
+package app;
 
 public enum ModoEstacionamiento {
 	ACTIVO, INACTIVO;

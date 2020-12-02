@@ -1,4 +1,4 @@
-package Estacionamiento;
+package estacionamiento;
 
 public class EstacionamientoViaApp extends Estacionamiento {
 	private int numeroCelularOrigen;

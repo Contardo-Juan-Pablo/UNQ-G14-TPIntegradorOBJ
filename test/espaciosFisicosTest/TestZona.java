@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import EspaciosFisicos.PuntoDeVenta;
-import EspaciosFisicos.Zona;
+import espaciosFisicos.PuntoDeVenta;
+import espaciosFisicos.Zona;
 
 public class TestZona {
 	

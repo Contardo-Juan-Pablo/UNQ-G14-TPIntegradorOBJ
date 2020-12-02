@@ -3,18 +3,17 @@ package espaciosFisicosTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import App.AppSEM;
-import App.Estado;
-import Compra.CargaVirtual;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
-import EspaciosFisicos.PuntoDeVenta;
-import SEM.SEM;
+import app.AppSEM;
+import app.Estado;
+import compra.CargaVirtual;
+import espaciosFisicos.PuntoDeVenta;
+import sem.SEM;
 
 public class TestPuntoDeVenta {
 	SEM sem;
@@ -31,15 +30,15 @@ public class TestPuntoDeVenta {
 		when(sem.getHoraActual()).thenReturn(10);
 		ArrayList<Integer> numeroDeControl = new ArrayList<Integer>(1);
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(numeroDeControl, 1, sem);
-		puntoDeVenta.IngresarCompra(2,"AA-12-BB");
+		puntoDeVenta.ingresarCompra(2,"AA-12-BB");
 		
 		
 	}
 	
 	@Test
-	public void IngresarCarga() {
+	public void ingresarCarga() {
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(null, null, sem);
-		puntoDeVenta.IngresarCarga(123456, 200, appSem);
+		puntoDeVenta.ingresarCarga(123456, 200, appSem);
 		
 		assertEquals(1, sem.getCargasRealizadas().size());
 	}

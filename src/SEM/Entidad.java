@@ -1,19 +1,17 @@
-package SEM;
+package sem;
 
 import java.util.ArrayList;
 
-public class Entidad implements Observer{
-	private ArrayList<String> informes;
+public class Entidad {
+	private boolean estadoSubscripto = false;
+	private ArrayList<Informe> informes;
 	
-	public void update(String informe) {
+	public void serNotificado() {
+		Informe informe = new Informe();
 		informes.add(informe);
 	}
-	
-	public void suscribirseA(SEM sem) {
-		sem.añadirEntidad(this);
-	}
-	
-	public void desuscribirse(SEM sem) {
-		sem.retirar(this);
+
+	public boolean isEstadoSubscripto() {
+		return estadoSubscripto;
 	}
 }

@@ -2,7 +2,8 @@ package AppTest;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import App.Estado;
+
+import app.Estado;
 
 public class TestEstado {
 	@Test

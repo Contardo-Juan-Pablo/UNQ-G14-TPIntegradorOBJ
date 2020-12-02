@@ -1,6 +1,7 @@
-package Estacionamiento;
+package estacionamiento;
 import java.util.Calendar;
-import App.Modo;
+
+import app.Modo;
 
 public class Estacionamiento {	
 	private String patente;

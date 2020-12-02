@@ -4,7 +4,9 @@ package estacionamientoTest;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import Estacionamiento.Estacionamiento;
+
+import estacionamiento.Estacionamiento;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
