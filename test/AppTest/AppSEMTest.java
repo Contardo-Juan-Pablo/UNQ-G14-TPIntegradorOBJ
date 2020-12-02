@@ -29,11 +29,14 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoViaApp() {
+		Estacionamiento estacionamiento = mock(Estacionamiento.class);
+		
 		appSEM.actualizarSaldo(9999);
-		appSEM.iniciarEstacionamientoViaApp(patente, horasReservadas, numeroCelular);
+		appSEM.iniciarEstacionamientoViaApp(estacionamiento, 123);
 		when(semMock.getHoraActual()).thenReturn(10);
 
 		verify(semMock).realizarDescuentoDeSaldo(numeroCelular, Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas));
+		verify(semMock).guardarEstacionamiento(estacionamiento);
 	}
 	
 	@Test
@@ -45,10 +48,12 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoAutomatico() {
+		Estacionamiento estacionamiento = mock(Estacionamiento.class);
+		
 		when(semMock.hayEstacionamientoVigenteConPatente(patente)).thenReturn(false);
 		appSEM.walking();
 		appSEM.actualizarSaldo(99999);
-		appSEM.iniciarEstacionamientoAutomatico(numeroCelular, patente);
+		appSEM.iniciarEstacionamientoAutomatico(estacionamiento, 123);
 
 		assertEquals(1, appSEM.getNotificationHistory().size());
 	}

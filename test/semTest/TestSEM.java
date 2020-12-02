@@ -26,6 +26,7 @@ public class TestSEM {
 	ArrayList<Estacionamiento> estacionamientos;
 	ArrayList<PuntoDeVenta> puntosDeVenta;
 	ArrayList<Entidad> entidadesParticipantes;
+	Zona zona;
 	
 	@Before
 	public void setup() {
@@ -37,17 +38,15 @@ public class TestSEM {
 		entidadesParticipantes = new ArrayList<Entidad>();
 		creditoAsociado = new HashMap<Integer, Integer>();
 		puntosDeVenta = new ArrayList<PuntoDeVenta>();
-		Zona zona = new Zona(puntosDeVenta, "AA44");
+		zona = new Zona(puntosDeVenta, "AA44");
 		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
 	}
 	
 	@Test
 	public void cargarInfraccion() {
+		Infraccion infraccion = new Infraccion("AA-12-BB", LocalDateTime.now(), zona, "AA44");
+		sem.cargarInfraccion(infraccion);
 		
-		Infraccion infraccion = new Infraccion("AA-12-BB", LocalDateTime.now(), zonaInfraccion, codigoInspector)
-		sem.cargarInfraccion("AA-12-CC", "AA44");
-		System.out.println(sem.getInfraccionesLabradas());
+		assertEquals(1, sem.getInfraccionesLabradas().size());
 	}
-	
-
 }

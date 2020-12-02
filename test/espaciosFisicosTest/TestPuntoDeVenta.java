@@ -52,10 +52,13 @@ public class TestPuntoDeVenta {
 	
 	@Test
 	public void ingresarCompra() {
+		Compra compra = mock(Compra.class);
+		Estacionamiento estacionamiento = mock(Estacionamiento.class);
+		
 		sem.setHoraActual(10);
 		ArrayList<Integer> numeroDeControl = new ArrayList<Integer>(1);
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(numeroDeControl, 1, sem);
-		puntoDeVenta.ingresarCompra(2,"AA-12-BB");
+		puntoDeVenta.ingresarCompra(compra, estacionamiento);
 		
 		assertEquals(1, sem.getComprasRealizadas().size());
 	}
@@ -92,5 +95,4 @@ public class TestPuntoDeVenta {
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(null, 123456, null);
 		assertTrue(123456 == puntoDeVenta.getId());
 	}
-
 }

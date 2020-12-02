@@ -31,7 +31,7 @@ public class AppSEM implements MovementSensor {
 		semAsociado.terminarEstacionamiento(numeroCelular);
 	}
 	
-	public void iniciarEstacionamientoAutomatico(int numeroCelular,Estacionamiento estacionamiento) {
+	public void iniciarEstacionamientoAutomatico(Estacionamiento estacionamiento, int numeroCelular) {
 		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(estacionamiento.getPatente())) {
 			iniciarEstacionamientoViaApp(estacionamiento, numeroCelular);
 			lanzarAlerta("La solicitud de inicio de estacionamiento fue enviada");

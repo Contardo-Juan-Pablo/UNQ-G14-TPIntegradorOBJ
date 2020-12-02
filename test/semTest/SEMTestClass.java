@@ -43,6 +43,4 @@ public class SEMTestClass extends SEM {
 	public void setHoraActual(int horaActual) {
 		this.horaActual = horaActual;
 	}
-	
-	
 }
