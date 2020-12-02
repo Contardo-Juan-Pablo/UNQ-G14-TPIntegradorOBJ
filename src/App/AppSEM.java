@@ -18,7 +18,6 @@ public class AppSEM implements MovementSensor {
 	/**             GETTERS AND SETTERS                  **/
 	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
 		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas);
-		
 		if(getSaldoActual() >= costoActual) {
 			semAsociado.realizarDescuentoDeSaldo(numeroCelular, costoActual);
 			semAsociado.guardarEstacionamiento(new EstacionamientoViaApp(patente, horasReservadas, numeroCelular));
@@ -64,7 +63,11 @@ public class AppSEM implements MovementSensor {
 		return estadoDelUsuario;
 	}
 	
-	private Integer getSaldoActual() {
+	public Integer getSaldoActual() {
 		return saldoActual;
+	}
+
+	public void actualizarSaldo(int nuevoSaldo) {
+		saldoActual = nuevoSaldo;
 	}
 }
