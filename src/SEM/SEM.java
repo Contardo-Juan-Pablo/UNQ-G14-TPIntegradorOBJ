@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import App.AppSEM;
 import Compra.CargaVirtual;
 import Compra.Compra;
 import EspaciosFisicos.Zona;
@@ -76,10 +74,9 @@ public class SEM {
 	}
 	///////////////////////
 	
-	public void registrarCarga(CargaVirtual carga, AppSEM appSEM) {
+	public void registrarCarga(CargaVirtual carga) {
 		int numeroDeCelular = carga.getCelular();
 		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) + carga.getCarga();
-		appSEM.actualizarSaldo(nuevoSaldo);
 		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
 		cargasRealizadas.add(carga);
 	}
