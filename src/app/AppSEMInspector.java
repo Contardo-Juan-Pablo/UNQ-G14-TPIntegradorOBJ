@@ -1,4 +1,5 @@
 package app;
+import sem.Infraccion;
 import sem.SEM;
 
 public class AppSEMInspector {
@@ -14,7 +15,7 @@ public class AppSEMInspector {
 		return semAsociado.hayEstacionamientoVigenteConPatente(patente);
 	}
 
-	public void gestionarInfraccion(String patente, String codigoDeInspector) {
-		semAsociado.cargarInfraccion(patente, codigoDeInspector);	
+	public void gestionarInfraccion(Infraccion infraccion) {
+		semAsociado.cargarInfraccion(infraccion);	
 	}
 }

@@ -1,27 +1,39 @@
-package SEM;
+package sem;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import app.AppSEM;
 import compra.CargaVirtual;
 import compra.Compra;
-import EspaciosFisicos.Zona;
+import espaciosFisicos.Zona;
 import estacionamiento.Estacionamiento;
-import estacionamiento.EstacionamientoViaApp;
 
 public class SEM {
-	private ArrayList<Compra> comprasRealizadas = new ArrayList<Compra>();
-	private ArrayList<CargaVirtual> cargasRealizadas = new ArrayList<CargaVirtual>();
-	private ArrayList<Zona> zonasConSEM = new ArrayList<Zona>();
-	private Map<Integer, Integer> creditoAsociado = new HashMap<>(); //Decidimos utilizar un Map, porque creemos que es la mejor manera de mantener asociado el celular con su carga
-	private ArrayList<Infraccion> infraccionesLabradas = new ArrayList<Infraccion>();
-	private ArrayList<Estacionamiento> estacionamientos = new ArrayList<Estacionamiento>();
-	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
+	protected ArrayList<Compra> comprasRealizadas;
+	protected ArrayList<CargaVirtual> cargasRealizadas;
+	private ArrayList<Zona> zonasConSEM;
+	private Map<Integer, Integer> creditoAsociado;
+	protected ArrayList<Infraccion> infraccionesLabradas;
+	protected ArrayList<Estacionamiento> estacionamientos;
+	private ArrayList<Entidad> entidadesParticipantes;
 	 
+	/** 				SECCIÓN CONSTRUCTOR 				**/
+	public SEM(ArrayList<Compra> comprasRealizadas, ArrayList<CargaVirtual> cargasRealizadas,
+			ArrayList<Zona> zonasConSEM, Map<Integer, Integer> creditoAsociado,
+			ArrayList<Infraccion> infraccionesLabradas, ArrayList<Estacionamiento> estacionamientos,
+			ArrayList<Entidad> entidadesParticipantes) {
+		this.comprasRealizadas = comprasRealizadas;
+		this.cargasRealizadas = cargasRealizadas;
+		this.zonasConSEM = zonasConSEM;
+		this.creditoAsociado = creditoAsociado;
+		this.infraccionesLabradas = infraccionesLabradas;
+		this.estacionamientos = estacionamientos;
+		this.entidadesParticipantes = entidadesParticipantes;
+	}
+	
+	
 	/** 				SECCIÓN INSPECTOR 				**/
 	public void cargarInfraccion(Infraccion infraccion) {
 		infraccionesLabradas.add(infraccion);
@@ -32,18 +44,18 @@ public class SEM {
 	}
 
 	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
-		return this.getEstacionamientos().stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
+		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
 	}
 	
 	/** 				SECCIÓN OPERADOR 				**/
 	public void finalizarEstacionamientos() {
-		if(this.fueraDeHorario()) {
-			this.getEstacionamientos().stream().forEach(estacionamiento -> estacionamiento.finalizar());
+		if(this.fueraDeHorario(20)) {
+			this.estacionamientos.stream().forEach(estacionamiento -> estacionamiento.finalizar());
 		}
 	}
 	
-	public Boolean fueraDeHorario() {
-		return getHoraActual() >= 20;
+	public Boolean fueraDeHorario(int horaLimite) {
+		return getHoraActual() >= horaLimite;
 	}
 	
 	/** 				GETTERS AND SETTERS 				**/
@@ -53,8 +65,8 @@ public class SEM {
 	}
 	
 	public void terminarEstacionamiento(int numeroCelular) {
-		for(Estacionamiento estacionamiento : getEstacionamientos()) {
-			getEstacionamientos().remove(estacionamiento);
+		for(Estacionamiento estacionamiento : estacionamientos) {
+			estacionamientos.remove(estacionamiento);
 			this.enviarNotificaciones(estacionamiento.getPatente() + "Finalizo estacionamiento el" + LocalDateTime.now().toString());
 		}
 	}
@@ -71,7 +83,7 @@ public class SEM {
 		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) + carga.getCarga();
 		appSEM.actualizarSaldo(nuevoSaldo);
 		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
-		getCargasRealizadas().add(carga);
+		cargasRealizadas.add(carga);
 	}
 	
 	
@@ -85,18 +97,6 @@ public class SEM {
 	
 	public void almancenarNuevoEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
-	}
-	
-	public ArrayList<Estacionamiento> getEstacionamientos() {
-		return estacionamientos;
-	}
-	
-	public ArrayList<Compra> getComprasRealizadas() {
-		return comprasRealizadas;
-	}	
-	
-	public ArrayList<CargaVirtual> getCargasRealizadas(){
-		return cargasRealizadas;
 	}
 	
 	public int getHoraActual() {

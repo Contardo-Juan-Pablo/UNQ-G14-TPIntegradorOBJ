@@ -8,31 +8,59 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import app.AppSEM;
+import app.AppSEMInspector;
 import app.Estado;
 import compra.CargaVirtual;
+import compra.Compra;
 import espaciosFisicos.PuntoDeVenta;
+import espaciosFisicos.Zona;
+import estacionamiento.Estacionamiento;
+import sem.Entidad;
+import sem.Infraccion;
 import sem.SEM;
+import semTest.SEMTestClass;
 
 public class TestPuntoDeVenta {
-	SEM sem;
 	AppSEM appSem;
+	AppSEMInspector appInspector;
+	SEMTestClass sem;
+	ArrayList<Compra> comprasRealizadas;
+	ArrayList<CargaVirtual> cargasRealizadas;
+	ArrayList<Zona> zonasConSEM;
+	ArrayList<Infraccion> infraccionesLabradas; 
+	ArrayList<Estacionamiento> estacionamientos;
+	ArrayList<Entidad> entidadesParticipantes;
+	ArrayList<PuntoDeVenta> puntos;
+	HashMap<Integer, Integer> creditoAsociado;
+	Zona zona;
 	
 	@Before
 	public void setup() {
-		sem = mock(SEM.class);
+		comprasRealizadas = new ArrayList<Compra>();
+		cargasRealizadas = new ArrayList<CargaVirtual>();
+		zonasConSEM = new ArrayList<Zona>();
+		infraccionesLabradas = new ArrayList<Infraccion>(); 
+		estacionamientos = new ArrayList<Estacionamiento>();
+		entidadesParticipantes = new ArrayList<Entidad>();
+		creditoAsociado = new HashMap<Integer, Integer>();
+		zona = new Zona(puntos, "AA44");
+		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
+		appInspector = new AppSEMInspector(sem);
 		appSem = new AppSEM(Estado.CAMINANDO, sem);
 	}
 	
+	
 	@Test
 	public void ingresarCompra() {
-		when(sem.getHoraActual()).thenReturn(10);
+		sem.setHoraActual(10);
 		ArrayList<Integer> numeroDeControl = new ArrayList<Integer>(1);
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(numeroDeControl, 1, sem);
 		puntoDeVenta.ingresarCompra(2,"AA-12-BB");
 		
-		
+		assertEquals(1, sem.getComprasRealizadas().size());
 	}
 	
 	@Test

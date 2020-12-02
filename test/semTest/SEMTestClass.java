@@ -1,13 +1,14 @@
 package semTest;
 import java.util.ArrayList;
 import java.util.Map;
-import Compra.CargaVirtual;
-import Compra.Compra;
-import EspaciosFisicos.Zona;
-import Estacionamiento.Estacionamiento;
-import SEM.Entidad;
-import SEM.Infraccion;
-import SEM.SEM;
+
+import compra.CargaVirtual;
+import compra.Compra;
+import espaciosFisicos.Zona;
+import estacionamiento.Estacionamiento;
+import sem.Entidad;
+import sem.Infraccion;
+import sem.SEM;
 
 public class SEMTestClass extends SEM {
 	private int horaActual = 0;
@@ -19,17 +20,28 @@ public class SEMTestClass extends SEM {
 		super(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos,
 				entidadesParticipantes);
 	}
-	
+
 	public ArrayList<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
 	}
 	
+	public ArrayList<Compra> getComprasRealizadas() {
+		return comprasRealizadas;
+	}
+	
+	public ArrayList<CargaVirtual> getCargasRealizadas() {
+		return cargasRealizadas;
+	}
 	public int getHoraActual() {
 		return horaActual;
 	}
 	
 	public ArrayList<Infraccion> getInfraccionesLabradas() {
 		return infraccionesLabradas;
+	}
+
+	public void setHoraActual(int horaActual) {
+		this.horaActual = horaActual;
 	}
 	
 	
