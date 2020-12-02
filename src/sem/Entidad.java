@@ -2,7 +2,12 @@ package sem;
 import java.util.ArrayList;
 
 public class Entidad implements Observer {
-	private ArrayList<String> informes;
+	protected ArrayList<String> informes;
+
+	
+	public Entidad(ArrayList<String> informes) {
+		this.informes = informes;
+	}
 
 	@Override
 	public void update(String informe) {

@@ -1,12 +1,11 @@
 package estacionamiento;
-import java.util.Calendar;
-
+import java.time.LocalDateTime;
 import app.Modo;
 
 public class Estacionamiento {	
 	private String patente;
 	@SuppressWarnings("unused")
-	private Integer cantidadDeHorasReservadas;
+	private int cantidadDeHorasReservadas;
 	private Modo estadoDelEstacionamiento = Modo.ACTIVADO;
 	
 	public Estacionamiento(String patente, Integer cantidadDeHorasReservadas) {
@@ -15,7 +14,11 @@ public class Estacionamiento {
 	}
 	
 	public Boolean estaActivo() {
-		return estadoDelEstacionamiento.equals(Modo.ACTIVADO);
+		return estadoDelEstacionamiento == Modo.ACTIVADO;
+	}
+	
+	public int getNumeroCelularOrigen() {
+		return -1;
 	}
 	
 	public Boolean estaDentroDeLaFranjaHoraria(Integer hora) { 
@@ -46,10 +49,10 @@ public class Estacionamiento {
 	}
 	
 	public static int getHoraActual() {
-		return Calendar.HOUR_OF_DAY;
+		return LocalDateTime.now().getHour();
 	}
 
-	public Integer getHorasReservadas() {
+	public int getHorasReservadas() {
 		return cantidadDeHorasReservadas;
 	}
 }

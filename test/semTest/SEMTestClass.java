@@ -43,4 +43,12 @@ public class SEMTestClass extends SEM {
 	public void setHoraActual(int horaActual) {
 		this.horaActual = horaActual;
 	}
+	
+	public void añadirZona(Zona zona) {
+		zonasConSEM.add(zona);
+	}
+	
+	public ArrayList<Entidad> getEntidadesParticipantes() {
+		return entidadesParticipantes;
+	}
 }

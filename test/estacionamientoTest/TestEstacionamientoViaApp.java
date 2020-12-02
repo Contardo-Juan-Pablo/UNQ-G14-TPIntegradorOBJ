@@ -14,7 +14,7 @@ public class TestEstacionamientoViaApp {
 	
 	@Before
 	public void setup() {
-		estacionamiento = new EstacionamientoViaApp("AA-12-BB", 3, 1111111);
+		estacionamiento = new EstacionamientoViaApp("AA-12-BB", 1111111);
 	}
 	
 	@Test

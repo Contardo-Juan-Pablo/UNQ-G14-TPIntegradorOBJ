@@ -1,14 +1,13 @@
 package AppTest;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-import app.AppSEM;
 import app.Estado;
 import app.Modo;
 import estacionamiento.Estacionamiento;
+import estacionamiento.EstacionamientoViaApp;
 import sem.SEM;
 
 public class AppSEMTest {
@@ -16,12 +15,12 @@ public class AppSEMTest {
 	private int horasReservadas;
 	private SEM semMock;
 	private String patente;
-	private AppSEM appSEM;
+	private AppSEMTestClass appSEM;
 	
 	@Before
 	public void setUp() throws Exception {
 		semMock = mock(SEM.class);
-		appSEM = new AppSEM(Estado.CAMINANDO, semMock);
+		appSEM = new AppSEMTestClass(Estado.CAMINANDO, semMock);
 		patente = "HDT";
 		numeroCelular = 1234;
 		horasReservadas = 3;
@@ -29,13 +28,12 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoViaApp() {
-		Estacionamiento estacionamiento = mock(Estacionamiento.class);
-		
+		EstacionamientoViaApp estacionamiento = new EstacionamientoViaApp(patente, numeroCelular); 		
 		appSEM.actualizarSaldo(9999);
-		appSEM.iniciarEstacionamientoViaApp(estacionamiento, 123);
+		appSEM.iniciarEstacionamientoViaApp(estacionamiento);
 		when(semMock.getHoraActual()).thenReturn(10);
 
-		verify(semMock).realizarDescuentoDeSaldo(numeroCelular, Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas));
+		verify(semMock).realizarDescuentoDeSaldo(numeroCelular, Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas), appSEM);
 		verify(semMock).guardarEstacionamiento(estacionamiento);
 	}
 	
@@ -48,14 +46,14 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoAutomatico() {
-		Estacionamiento estacionamiento = mock(Estacionamiento.class);
-		
+		EstacionamientoViaApp estacionamiento = new EstacionamientoViaApp(patente, numeroCelular);	
 		when(semMock.hayEstacionamientoVigenteConPatente(patente)).thenReturn(false);
 		appSEM.walking();
 		appSEM.actualizarSaldo(99999);
-		appSEM.iniciarEstacionamientoAutomatico(estacionamiento, 123);
+		appSEM.iniciarEstacionamientoAutomatico(estacionamiento);
 
-		assertEquals(1, appSEM.getNotificationHistory().size());
+		verify(semMock).realizarDescuentoDeSaldo(numeroCelular, Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas), appSEM);
+		verify(semMock).guardarEstacionamiento(estacionamiento);
 	}
 	
 	@Test
@@ -91,6 +89,6 @@ public class AppSEMTest {
 	public void testActualizarSaldo() {
 		appSEM.actualizarSaldo(128);
 		
-		assertEquals(Integer.valueOf(128), appSEM.getSaldoActual());
+		assertEquals(128, appSEM.getSaldoActual());
 	}
 }

@@ -2,16 +2,15 @@ package app;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import estacionamiento.Estacionamiento;
 import sem.SEM;
 
 public class AppSEM implements MovementSensor { 
-	private Estado estadoDelUsuario;
-	private Modo modoAutomatico = Modo.DESACTIVADO;
-	private SEM semAsociado;
-	private ArrayList<String> notificationHistory = new ArrayList<String>();
-	private Integer saldoActual;
+	protected Estado estadoDelUsuario;
+	protected Modo modoAutomatico = Modo.DESACTIVADO;
+	protected SEM semAsociado;
+	protected ArrayList<String> notificationHistory = new ArrayList<String>();
+	protected Integer saldoActual;
 	
 	/**             CONSTRUCTOR DE CLASE                  **/
 	public AppSEM(Estado estadoDelUsuario, SEM semAsociado) {
@@ -20,9 +19,9 @@ public class AppSEM implements MovementSensor {
 	} 
  
 	/**             GETTERS AND SETTERS                  **/
-	public void iniciarEstacionamientoViaApp(Estacionamiento estacionamiento, Integer numeroCelular) {
-		if(this.getSaldoActual() >= this.costoActual(estacionamiento.getHorasReservadas())) {
-			semAsociado.realizarDescuentoDeSaldo(numeroCelular, estacionamiento.getHorasReservadas());
+	public void iniciarEstacionamientoViaApp(Estacionamiento estacionamiento) {
+		if(saldoActual >= this.costoActual(estacionamiento.getHorasReservadas())) {
+			semAsociado.realizarDescuentoDeSaldo(estacionamiento.getNumeroCelularOrigen(),  this.costoActual(estacionamiento.getHorasReservadas()), this);
 			semAsociado.guardarEstacionamiento(estacionamiento);
 		} 
 	}
@@ -31,15 +30,15 @@ public class AppSEM implements MovementSensor {
 		semAsociado.terminarEstacionamiento(numeroCelular);
 	}
 	
-	public void iniciarEstacionamientoAutomatico(Estacionamiento estacionamiento, int numeroCelular) {
-		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(estacionamiento.getPatente())) {
-			iniciarEstacionamientoViaApp(estacionamiento, numeroCelular);
+	public void iniciarEstacionamientoAutomatico(Estacionamiento estacionamiento) {
+		if(estadoDelUsuario == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(estacionamiento.getPatente())) {
+			iniciarEstacionamientoViaApp(estacionamiento);
 			lanzarAlerta("La solicitud de inicio de estacionamiento fue enviada");
 		}
 	}
 	
 	public void finalizarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
-		if(getEstadoDelUsuario() == Estado.MANEJANDO && sem.hayEstacionamientoVigenteConPatente(patente)) {
+		if(estadoDelUsuario == Estado.MANEJANDO && sem.hayEstacionamientoVigenteConPatente(patente)) {
 			finalizarEstacionamientoViaApp(numeroCelular);
 			lanzarAlerta("La solicitud de finalizacion de estacionamiento fue enviada");
 		}
@@ -58,22 +57,6 @@ public class AppSEM implements MovementSensor {
 	@Override
 	public void walking() {
 		estadoDelUsuario = Estado.CAMINANDO;	
-	}
-	
-	public Modo getModoAutomatico() {
-		return modoAutomatico;
-	}
-
-	public Estado getEstadoDelUsuario() {
-		return estadoDelUsuario;
-	}
-	
-	public ArrayList<String> getNotificationHistory() {
-		return notificationHistory;
-	}
-	
-	public Integer getSaldoActual() {
-		return saldoActual;
 	}
 
 	public void actualizarSaldo(int nuevoSaldo) {

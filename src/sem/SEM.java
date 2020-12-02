@@ -13,11 +13,11 @@ import estacionamiento.Estacionamiento;
 public class SEM {
 	protected ArrayList<Compra> comprasRealizadas;
 	protected ArrayList<CargaVirtual> cargasRealizadas;
-	private ArrayList<Zona> zonasConSEM;
-	private Map<Integer, Integer> creditoAsociado;
+	protected ArrayList<Zona> zonasConSEM;
+	protected Map<Integer, Integer> creditoAsociado;
 	protected ArrayList<Infraccion> infraccionesLabradas;
 	protected ArrayList<Estacionamiento> estacionamientos;
-	private ArrayList<Entidad> entidadesParticipantes;
+	protected ArrayList<Entidad> entidadesParticipantes;
 	 
 	/** 				SECCIÓN CONSTRUCTOR 				**/
 	public SEM(ArrayList<Compra> comprasRealizadas, ArrayList<CargaVirtual> cargasRealizadas,
@@ -33,18 +33,23 @@ public class SEM {
 		this.entidadesParticipantes = entidadesParticipantes;
 	}
 	
-	
 	/** 				SECCIÓN INSPECTOR 				**/
 	public void cargarInfraccion(Infraccion infraccion) {
 		infraccionesLabradas.add(infraccion);
 	}
 	
 	public Zona zonaAlQuePerteneceInspector(String codigoDeInspector) {
-		return this.zonasConSEM.stream().filter(zona -> zona.contieneAlInspector(codigoDeInspector)).collect(Collectors.toList()).get(0);
+		try {
+			Zona zonaBuscada = this.zonasConSEM.stream().filter(zona -> zona.contieneAlInspector(codigoDeInspector)).collect(Collectors.toList()).get(0);
+			return zonaBuscada;
+		} catch(IndexOutOfBoundsException e) {
+			System.out.println("No hay una zoan con ese Inspector");
+			throw e;
+		}	
 	}
 
 	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
-		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
+		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 0;
 	}
 	
 	/** 				SECCIÓN OPERADOR 				**/
@@ -58,15 +63,19 @@ public class SEM {
 		return getHoraActual() >= horaLimite;
 	}
 	
-	/** 				GETTERS AND SETTERS 				**/
-	public void realizarDescuentoDeSaldo(Integer numeroDeCelular, Integer costo) {
-		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) - costo;
+	/** 				GETTERS AND SETTERS 				
+	 * @param appSEM **/
+	public void realizarDescuentoDeSaldo(Integer numeroDeCelular, Integer costo, AppSEM appSEM) {
+		int nuevoSaldo = Math.abs(Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) - costo);
+		appSEM.actualizarSaldo(nuevoSaldo);
 		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
 	}
-	
+
 	public void terminarEstacionamiento(int numeroCelular) {
 		for(Estacionamiento estacionamiento : estacionamientos) {
-			estacionamientos.remove(estacionamiento);
+			if(estacionamiento.esNumeroCelularBuscado(numeroCelular)) {
+				estacionamiento.finalizar();
+			}
 			this.enviarNotificaciones(estacionamiento.getPatente() + "Finalizo estacionamiento el" + LocalDateTime.now().toString());
 		}
 	}
@@ -104,12 +113,10 @@ public class SEM {
 	}
 
 	public void registrarEntidad(Entidad entidad) {
-		entidadesParticipantes.remove(entidad);
-		
+		entidadesParticipantes.add(entidad);
 	}
 
 	public void retirarEntidad(Entidad entidad) {
-		entidadesParticipantes.add(entidad);
-		
+		entidadesParticipantes.remove(entidad);
 	}
 }

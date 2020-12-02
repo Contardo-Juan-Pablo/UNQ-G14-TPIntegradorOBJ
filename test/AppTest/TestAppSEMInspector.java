@@ -2,14 +2,10 @@ package AppTest;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import app.AppSEMInspector;
 import compra.CargaVirtual;
 import compra.Compra;
@@ -33,6 +29,7 @@ public class TestAppSEMInspector {
 	ArrayList<PuntoDeVenta> puntos;
 	HashMap<Integer, Integer> creditoAsociado;
 	Zona zona;
+	SEM semMock;
 	
 	@Before
 	public void setup() {
@@ -44,21 +41,22 @@ public class TestAppSEMInspector {
 		entidadesParticipantes = new ArrayList<Entidad>();
 		creditoAsociado = new HashMap<Integer, Integer>();
 		zona = new Zona(puntos, "AA44");
-		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
-		appInspector = new AppSEMInspector(sem);
+		semMock = mock(SEM.class);
+		appInspector = new AppSEMInspector(semMock);
 	}
 	
 	@Test
 	public void consultarPatenteSEM() {
 		appInspector.consultarPatenteSEM("AA-12-CC");
 		
-		verify(sem).hayEstacionamientoVigenteConPatente("AA-12-CC");
+		verify(semMock).hayEstacionamientoVigenteConPatente("AA-12-CC");
 	}
 	
 	@Test
 	public void gestionarInfraccion() {
 		Infraccion infraccion = new Infraccion("AA-12-CC", LocalDateTime.now(), zona, "AA44");
 		appInspector.gestionarInfraccion(infraccion);
-		assertEquals(1, sem.getInfraccionesLabradas().size());
+		
+		verify(semMock).cargarInfraccion(infraccion);
 	}
 }

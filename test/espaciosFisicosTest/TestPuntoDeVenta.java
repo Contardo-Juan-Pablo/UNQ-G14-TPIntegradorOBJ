@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import app.AppSEM;
-import app.AppSEMInspector;
 import app.Estado;
 import compra.CargaVirtual;
 import compra.Compra;
@@ -17,12 +16,10 @@ import espaciosFisicos.Zona;
 import estacionamiento.Estacionamiento;
 import sem.Entidad;
 import sem.Infraccion;
-import sem.SEM;
 import semTest.SEMTestClass;
 
 public class TestPuntoDeVenta {
 	AppSEM appSem;
-	AppSEMInspector appInspector;
 	SEMTestClass sem;
 	ArrayList<Compra> comprasRealizadas;
 	ArrayList<CargaVirtual> cargasRealizadas;
@@ -45,7 +42,6 @@ public class TestPuntoDeVenta {
 		creditoAsociado = new HashMap<Integer, Integer>();
 		zona = new Zona(puntos, "AA44");
 		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
-		appInspector = new AppSEMInspector(sem);
 		appSem = new AppSEM(Estado.CAMINANDO, sem);
 	}
 	

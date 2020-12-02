@@ -3,8 +3,8 @@ package estacionamiento;
 public class EstacionamientoViaApp extends Estacionamiento {
 	private int numeroCelularOrigen;
 	
-	public EstacionamientoViaApp(String patente, Integer cantidadDeHorasReservadas, Integer numeroCelularOrigen) {
-		super(patente, cantidadDeHorasReservadas);
+	public EstacionamientoViaApp(String patente, Integer numeroCelularOrigen) {
+		super(patente, 1);
 		this.numeroCelularOrigen = numeroCelularOrigen;
 	}
 

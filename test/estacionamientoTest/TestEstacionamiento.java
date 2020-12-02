@@ -1,23 +1,26 @@
 package estacionamientoTest;
-
-
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-
 import estacionamiento.Estacionamiento;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+
 
 public class TestEstacionamiento {
-
+	Estacionamiento estacionamientoX;
+	
+	@Before
+	public void setup() {
+		estacionamientoX = new Estacionamiento("AA-12-BB", 4);
+	}
+	
 	@Test
 	public void getPatente() {
-		Estacionamiento estacionamientoX = new Estacionamiento("AA-12-BB", 4);
 		assertEquals("AA-12-BB", estacionamientoX.getPatente());
 	}
 	
@@ -57,7 +60,6 @@ public class TestEstacionamiento {
 	
 	@Test
 	public void setFinalizar() {
-		Estacionamiento estacionamientoX = new Estacionamiento("AA-12-BB", 4);
 		estacionamientoX.finalizar();
 		assertFalse(estacionamientoX.estaActivo());
 	}
@@ -95,7 +97,7 @@ public class TestEstacionamiento {
 	
 	@Test
 	public void getHoraActual() {
-		int horaActual = Calendar.HOUR_OF_DAY;
+		int horaActual = LocalDateTime.now().getHour();
 		try (MockedStatic<Estacionamiento> theMock = Mockito.mockStatic(Estacionamiento.class)) {
 			  theMock.when(() -> Estacionamiento.getHoraActual()).thenCallRealMethod();
 			  
@@ -103,6 +105,15 @@ public class TestEstacionamiento {
 		}
 	}
 	
+	@Test
+	public void testGetHorasReservadas() {
+		assertTrue(estacionamientoX.getHorasReservadas() == 4);
+	}
 	
+	@Test
+	public void testCelularOrigen() {
+		
+		assertEquals(-1, estacionamientoX.getNumeroCelularOrigen());
+	}
 	
 }
