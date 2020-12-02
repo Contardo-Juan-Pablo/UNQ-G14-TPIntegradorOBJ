@@ -3,6 +3,7 @@ package EspaciosFisicos;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import App.AppSEM;
 import Compra.CargaVirtual;
 import Compra.Compra;
 import Estacionamiento.Estacionamiento;
@@ -24,8 +25,8 @@ public class PuntoDeVenta {
 		sem.guardarEstacionamiento(new Estacionamiento(patente, cantidadDeHorasReservadas));
 	}
 
-	public void IngresarCarga(int numeroDeCelular, int montoDeRecarga) {
-		sem.registrarCarga(new CargaVirtual(montoDeRecarga, numeroDeCelular));
+	public void IngresarCarga(int numeroDeCelular, int montoDeRecarga, AppSEM appSEM) {
+		sem.registrarCarga(new CargaVirtual(montoDeRecarga, numeroDeCelular), appSEM);
 	}
 	
 	public String getCodigoDeControl() {
