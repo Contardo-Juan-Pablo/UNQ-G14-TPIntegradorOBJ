@@ -1,4 +1,4 @@
-package sem;
+package SEM;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,11 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import app.AppSEM;
 import compra.CargaVirtual;
 import compra.Compra;
-import espaciosFisicos.Zona;
+import EspaciosFisicos.Zona;
 import estacionamiento.Estacionamiento;
 import estacionamiento.EstacionamientoViaApp;
 
@@ -24,15 +23,11 @@ public class SEM {
 	private ArrayList<Entidad> entidadesParticipantes = new ArrayList<Entidad>();
 	 
 	/** 				SECCIÓN INSPECTOR 				**/
-	public void cargarInfraccion(String patente, String codigoDeInspector) {
-		Calendar fechaYHoraActual = Calendar.getInstance();
-		Zona zonaDeInfraccion = this.zonaAlQuePerteneceInspector(codigoDeInspector);
-		Infraccion infraccionGenerada = new Infraccion(patente, fechaYHoraActual, zonaDeInfraccion, codigoDeInspector);
-		infraccionesLabradas.add(infraccionGenerada);
+	public void cargarInfraccion(Infraccion infraccion) {
+		infraccionesLabradas.add(infraccion);
 	}
 	
 	public Zona zonaAlQuePerteneceInspector(String codigoDeInspector) {
-		/** El inspector siempre pertenece a alguna zona. No puede haber inspector sin ella. */
 		return this.zonasConSEM.stream().filter(zona -> zona.contieneAlInspector(codigoDeInspector)).collect(Collectors.toList()).get(0);
 	}
 
@@ -48,8 +43,7 @@ public class SEM {
 	}
 	
 	public Boolean fueraDeHorario() {
-		int horaActual = Calendar.HOUR_OF_DAY;
-		return horaActual >= 20;
+		return getHoraActual() >= 20;
 	}
 	
 	/** 				GETTERS AND SETTERS 				**/
@@ -61,22 +55,16 @@ public class SEM {
 	public void terminarEstacionamiento(int numeroCelular) {
 		for(Estacionamiento estacionamiento : getEstacionamientos()) {
 			getEstacionamientos().remove(estacionamiento);
-			this.enviarNotificaciones();
+			this.enviarNotificaciones(estacionamiento.getPatente() + "Finalizo estacionamiento el" + LocalDateTime.now().toString());
 		}
 	}
 	
-	// PARA POSIBLE ELIMINACION 
-	public ArrayList<String> getPatentesDeEstacionamientos() {
-		ArrayList<String> listaDePatentes = new ArrayList<String>();
-		this.getEstacionamientos().stream().forEach(estacionamiento -> listaDePatentes.add(estacionamiento.getPatente()));
-		return listaDePatentes;
-		
+	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
+		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
+			this.almancenarNuevoEstacionamiento(estacionamiento);
+			this.enviarNotificaciones(estacionamiento.getPatente() + "Inicio estacionamiento el" + LocalDateTime.now().toString());
+		}
 	}
-	
-	public Boolean estaLaPatenteBuscada(String patenteBuscada) {
-		return this.getPatentesDeEstacionamientos().stream().filter(patente -> (patente == patenteBuscada)).collect(Collectors.toList()).contains(patenteBuscada);
-	}
-	///////////////////////
 	
 	public void registrarCarga(CargaVirtual carga, AppSEM appSEM) {
 		int numeroDeCelular = carga.getCelular();
@@ -86,28 +74,9 @@ public class SEM {
 		getCargasRealizadas().add(carga);
 	}
 	
-	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
-			this.almancenarNuevoEstacionamiento(estacionamiento);
-			this.enviarNotificaciones();
-		}
-	}
 	
-	public Estacionamiento buscarEstacionamiento(int numeroCelular) {
-		Estacionamiento estacionamiento = null;
-		for(int i=0; i < getEstacionamientos().size(); i++){
-			if(getEstacionamientos().get(i).esNumeroCelularBuscado(numeroCelular)) {
-				estacionamiento = getEstacionamientos().get(i);
-			}
-		}
-		return estacionamiento;
-	}
-	
-	public void enviarNotificaciones() { //Consultar
-		for(int i=0; i < entidadesParticipantes.size(); i++){
-			if(entidadesParticipantes.get(i).isEstadoSubscripto())
-			entidadesParticipantes.get(i).serNotificado();
-		}
+	public void enviarNotificaciones(String informe) {
+		this.entidadesParticipantes.stream().forEach(entidad -> entidad.update(informe));
 	}
 	
 	public void registrarCompra(Compra compra) {
@@ -132,5 +101,15 @@ public class SEM {
 	
 	public int getHoraActual() {
 		return LocalDateTime.now().getHour();
+	}
+
+	public void registrarEntidad(Entidad entidad) {
+		entidadesParticipantes.remove(entidad);
+		
+	}
+
+	public void retirarEntidad(Entidad entidad) {
+		entidadesParticipantes.add(entidad);
+		
 	}
 }

@@ -1,10 +1,8 @@
-package sem;
-
+package SEM;
 import java.util.Calendar;
+import EspaciosFisicos.Zona;
 
-import espaciosFisicos.Zona;
-
-public class Infraccion {
+public class Infraccion  {
 	String patenteInfraccion;
 	Calendar horaYFechaInfraccion;
 	Zona zonaInfraccion;
