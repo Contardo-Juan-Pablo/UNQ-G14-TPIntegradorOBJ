@@ -1,7 +1,10 @@
 package espaciosFisicosTest;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import App.AppSEM;
+import App.Estado;
 import Compra.CargaVirtual;
 
 import static org.junit.Assert.assertEquals;
@@ -14,27 +17,29 @@ import EspaciosFisicos.PuntoDeVenta;
 import SEM.SEM;
 
 public class TestPuntoDeVenta {
+	SEM sem;
+	AppSEM appSem;
+	
+	@Before
+	public void setup() {
+		sem = mock(SEM.class);
+		appSem = new AppSEM(Estado.CAMINANDO, sem);
+	}
 	
 	@Test
 	public void ingresarCompra() {
-		ArrayList<Integer> numeroDeControl = new ArrayList<Integer>();
-		numeroDeControl.add(1);
-		SEM sem = new SEM();
-		
+		when(sem.getHoraActual()).thenReturn(10);
+		ArrayList<Integer> numeroDeControl = new ArrayList<Integer>(1);
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(numeroDeControl, 1, sem);
 		puntoDeVenta.IngresarCompra(2,"AA-12-BB");
 		
-		assertEquals(sem.getComprasRealizadas().size(),1);
-		assertEquals(sem.getEstacionamientos().size(),1);
+		
 	}
 	
 	@Test
 	public void IngresarCarga() {
-		ArrayList<CargaVirtual> cargas = new ArrayList<CargaVirtual>();
-		SEM sem = new SEM();
-		
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(null, null, sem);
-		puntoDeVenta.IngresarCarga(123456, 200);
+		puntoDeVenta.IngresarCarga(123456, 200, appSem);
 		
 		assertEquals(1, sem.getCargasRealizadas().size());
 	}

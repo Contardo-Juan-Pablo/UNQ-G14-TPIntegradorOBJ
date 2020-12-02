@@ -1,12 +1,15 @@
 package App;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import Estacionamiento.Estacionamiento;
-import Estacionamiento.EstacionamientoViaApp;
 import SEM.SEM;
 
 public class AppSEM implements MovementSensor { 
 	private Estado estadoDelUsuario;
 	private Modo modoAutomatico = Modo.DESACTIVADO;
 	private SEM semAsociado;
+	private ArrayList<String> notificationHistory = new ArrayList<String>();
 	private Integer saldoActual;
 	
 	/**             CONSTRUCTOR DE CLASE                  **/
@@ -17,10 +20,9 @@ public class AppSEM implements MovementSensor {
  
 	/**             GETTERS AND SETTERS                  **/
 	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
-		Integer costoActual = Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas);
-		if(getSaldoActual() >= costoActual) {
-			semAsociado.realizarDescuentoDeSaldo(numeroCelular, costoActual);
-			semAsociado.guardarEstacionamiento(new EstacionamientoViaApp(patente, horasReservadas, numeroCelular));
+		if(this.getSaldoActual() >= this.costoActual(horasReservadas)) {
+			semAsociado.realizarDescuentoDeSaldo(numeroCelular, this.costoActual(horasReservadas));
+			semAsociado.guardarEstacionamiento(new Estacionamiento(patente, horasReservadas));
 		}
 	}
 	
@@ -31,19 +33,21 @@ public class AppSEM implements MovementSensor {
 	public void iniciarEstacionamientoAutomatico(int numeroCelular,String patente) {
 		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(patente)) {
 			iniciarEstacionamientoViaApp(patente,1, numeroCelular);
-			lanzarAlerta("El estacionamiento a inciado");
+			lanzarAlerta("La solicitud de inicio de estacionamiento fue enviada");
 		}
 	}
 	
 	public void finalizarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
 		if(getEstadoDelUsuario() == Estado.MANEJANDO && sem.hayEstacionamientoVigenteConPatente(patente)) {
 			finalizarEstacionamientoViaApp(numeroCelular);
-			lanzarAlerta("El estacionamiento a finalizado");
+			lanzarAlerta("La solicitud de finalizacion de estacionamiento fue enviada");
 		}
 	}
 	
-	/** Cuando se tenga de manera precisa como mostrar el mensaje el usuario, el metodo ya esta definido, solo resta agregarle comprtamiento **/
-	public void lanzarAlerta(String mensaje) {}
+	
+	public void lanzarAlerta(String mensaje) {
+		notificationHistory.add(mensaje + DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(LocalDateTime.now()).toString());
+	}
 	
 	@Override
 	public void driving() {
@@ -63,11 +67,19 @@ public class AppSEM implements MovementSensor {
 		return estadoDelUsuario;
 	}
 	
+	public ArrayList<String> getNotificationHistory() {
+		return notificationHistory;
+	}
+	
 	public Integer getSaldoActual() {
 		return saldoActual;
 	}
 
 	public void actualizarSaldo(int nuevoSaldo) {
 		saldoActual = nuevoSaldo;
+	}
+	
+	public int costoActual(int horasReservadas) {
+		return Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas);
 	}
 }

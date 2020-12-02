@@ -1,4 +1,5 @@
 package SEM;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import Compra.CargaVirtual;
 import Compra.Compra;
 import EspaciosFisicos.Zona;
 import Estacionamiento.Estacionamiento;
+import Estacionamiento.EstacionamientoViaApp;
 
 public class SEM {
 	private ArrayList<Compra> comprasRealizadas = new ArrayList<Compra>();
@@ -35,13 +37,13 @@ public class SEM {
 	}
 
 	public boolean hayEstacionamientoVigenteConPatente(String patenteBuscada) {	
-		return this.estacionamientos.stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
+		return this.getEstacionamientos().stream().filter(estacionamiento -> (estacionamiento.getPatente() == patenteBuscada) && estacionamiento.estaActivo()).collect(Collectors.toList()).size() > 1;
 	}
 	
 	/** 				SECCIÓN OPERADOR 				**/
 	public void finalizarEstacionamientos() {
 		if(this.fueraDeHorario()) {
-			this.estacionamientos.stream().forEach(estacionamiento -> estacionamiento.finalizar());
+			this.getEstacionamientos().stream().forEach(estacionamiento -> estacionamiento.finalizar());
 		}
 	}
 	
@@ -57,8 +59,8 @@ public class SEM {
 	}
 	
 	public void terminarEstacionamiento(int numeroCelular) {
-		for(Estacionamiento estacionamiento : estacionamientos) {
-			estacionamientos.remove(estacionamiento);
+		for(Estacionamiento estacionamiento : getEstacionamientos()) {
+			getEstacionamientos().remove(estacionamiento);
 			this.enviarNotificaciones();
 		}
 	}
@@ -66,7 +68,7 @@ public class SEM {
 	// PARA POSIBLE ELIMINACION 
 	public ArrayList<String> getPatentesDeEstacionamientos() {
 		ArrayList<String> listaDePatentes = new ArrayList<String>();
-		this.estacionamientos.stream().forEach(estacionamiento -> listaDePatentes.add(estacionamiento.getPatente()));
+		this.getEstacionamientos().stream().forEach(estacionamiento -> listaDePatentes.add(estacionamiento.getPatente()));
 		return listaDePatentes;
 		
 	}
@@ -81,12 +83,11 @@ public class SEM {
 		int nuevoSaldo = Optional.ofNullable(creditoAsociado.get(numeroDeCelular)).orElse(0) + carga.getCarga();
 		appSEM.actualizarSaldo(nuevoSaldo);
 		creditoAsociado.replace(numeroDeCelular, nuevoSaldo);
-		cargasRealizadas.add(carga);
+		getCargasRealizadas().add(carga);
 	}
 	
 	public void guardarEstacionamiento(Estacionamiento estacionamiento) {
-		int horaActual = Calendar.HOUR_OF_DAY;
-		if(horaActual >= 7 && horaActual <= 20) {
+		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
 			this.almancenarNuevoEstacionamiento(estacionamiento);
 			this.enviarNotificaciones();
 		}
@@ -94,9 +95,9 @@ public class SEM {
 	
 	public Estacionamiento buscarEstacionamiento(int numeroCelular) {
 		Estacionamiento estacionamiento = null;
-		for(int i=0; i < estacionamientos.size(); i++){
-			if(estacionamientos.get(i).esNumeroCelularBuscado(numeroCelular)) {
-				estacionamiento = estacionamientos.get(i);
+		for(int i=0; i < getEstacionamientos().size(); i++){
+			if(getEstacionamientos().get(i).esNumeroCelularBuscado(numeroCelular)) {
+				estacionamiento = getEstacionamientos().get(i);
 			}
 		}
 		return estacionamiento;
@@ -127,5 +128,9 @@ public class SEM {
 	
 	public ArrayList<CargaVirtual> getCargasRealizadas(){
 		return cargasRealizadas;
+	}
+	
+	public int getHoraActual() {
+		return LocalDateTime.now().getHour();
 	}
 }

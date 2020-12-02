@@ -2,16 +2,13 @@ package AppTest;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-
 import App.AppSEM;
 import App.Estado;
 import App.Modo;
 import Estacionamiento.Estacionamiento;
-import Estacionamiento.EstacionamientoViaApp;
 import SEM.SEM;
 
 public class AppSEMTest {
@@ -24,7 +21,6 @@ public class AppSEMTest {
 	@Before
 	public void setUp() throws Exception {
 		semMock = mock(SEM.class);
-		semMock = new SEM();
 		appSEM = new AppSEM(Estado.CAMINANDO, semMock);
 		patente = "HDT";
 		numeroCelular = 1234;
@@ -33,11 +29,11 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoViaApp() {
-		appSEM.iniciarEstacionamientoViaApp(patente, horasReservadas, numeroCelular);
 		appSEM.actualizarSaldo(9999);
-		
+		appSEM.iniciarEstacionamientoViaApp(patente, horasReservadas, numeroCelular);
+		when(semMock.getHoraActual()).thenReturn(10);
+
 		verify(semMock).realizarDescuentoDeSaldo(numeroCelular, Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas));
-		verify(semMock).guardarEstacionamiento(new EstacionamientoViaApp(patente, horasReservadas, numeroCelular));
 	}
 	
 	@Test
@@ -49,11 +45,12 @@ public class AppSEMTest {
 	
 	@Test
 	public void testIniciarEstacionamientoAutomatico() {
-		when(semMock.hayEstacionamientoVigenteConPatente(patente)).thenReturn(true);
+		when(semMock.hayEstacionamientoVigenteConPatente(patente)).thenReturn(false);
+		appSEM.walking();
+		appSEM.actualizarSaldo(99999);
 		appSEM.iniciarEstacionamientoAutomatico(numeroCelular, patente);
-		
-		verify(appSEM).iniciarEstacionamientoViaApp(patente, 1, numeroCelular);
-		verify(appSEM).lanzarAlerta("El estacionamiento a inciado");
+
+		assertEquals(1, appSEM.getNotificationHistory().size());
 	}
 	
 	@Test
@@ -62,8 +59,7 @@ public class AppSEMTest {
 		appSEM.driving();
 		appSEM.finalizarEstacionamientoAutomatico(semMock, numeroCelular, patente);
 		
-		verify(appSEM).finalizarEstacionamientoViaApp(numeroCelular);
-		verify(appSEM).lanzarAlerta("El estacionamiento a inciado");
+		assertEquals(1, appSEM.getNotificationHistory().size());
 	}
 	
 	@Test
