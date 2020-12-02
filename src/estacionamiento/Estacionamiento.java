@@ -48,4 +48,8 @@ public class Estacionamiento {
 	public static int getHoraActual() {
 		return Calendar.HOUR_OF_DAY;
 	}
+
+	public Integer getHorasReservadas() {
+		return cantidadDeHorasReservadas;
+	}
 }

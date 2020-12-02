@@ -1,8 +1,6 @@
 package espaciosFisicos;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import app.AppSEM;
 import compra.CargaVirtual;
 import compra.Compra;
@@ -20,9 +18,9 @@ public class PuntoDeVenta {
 		this.sem = sem;
 	} 
 
-	public void ingresarCompra(int cantidadDeHorasReservadas, String patente) {
-		sem.registrarCompra(new Compra(this.getCodigoDeControl(),this, Calendar.getInstance(), cantidadDeHorasReservadas));
-		sem.guardarEstacionamiento(new Estacionamiento(patente, cantidadDeHorasReservadas));
+	public void ingresarCompra(Compra compra, Estacionamiento estacionamiento) {
+		sem.registrarCompra(compra);
+		sem.guardarEstacionamiento(estacionamiento);
 	}
 
 	public void ingresarCarga(int numeroDeCelular, int montoDeRecarga, AppSEM appSEM) {

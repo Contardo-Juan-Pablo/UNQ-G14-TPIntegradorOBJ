@@ -4,6 +4,8 @@
   <artifactId>TrabajoPracticoIntegrador</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>TrabajoPracticoIntegrador</name>
+  <dependencies>
+  </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
@@ -14,8 +16,11 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-        </configuration>
-      </plugin>
+        </configuration>     
+     </plugin>
     </plugins>
   </build>
 </project>
+ 
+
+

@@ -20,20 +20,20 @@ public class AppSEM implements MovementSensor {
 	} 
  
 	/**             GETTERS AND SETTERS                  **/
-	public void iniciarEstacionamientoViaApp(String patente, Integer horasReservadas, Integer numeroCelular) {
-		if(this.getSaldoActual() >= this.costoActual(horasReservadas)) {
-			semAsociado.realizarDescuentoDeSaldo(numeroCelular, this.costoActual(horasReservadas));
-			semAsociado.guardarEstacionamiento(new Estacionamiento(patente, horasReservadas));
-		}
+	public void iniciarEstacionamientoViaApp(Estacionamiento estacionamiento, Integer numeroCelular) {
+		if(this.getSaldoActual() >= this.costoActual(estacionamiento.getHorasReservadas())) {
+			semAsociado.realizarDescuentoDeSaldo(numeroCelular, estacionamiento.getHorasReservadas());
+			semAsociado.guardarEstacionamiento(estacionamiento);
+		} 
 	}
 	
 	public void finalizarEstacionamientoViaApp(Integer numeroCelular) {		
 		semAsociado.terminarEstacionamiento(numeroCelular);
 	}
 	
-	public void iniciarEstacionamientoAutomatico(int numeroCelular,String patente) {
-		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(patente)) {
-			iniciarEstacionamientoViaApp(patente,1, numeroCelular);
+	public void iniciarEstacionamientoAutomatico(int numeroCelular,Estacionamiento estacionamiento) {
+		if(getEstadoDelUsuario() == Estado.CAMINANDO && !semAsociado.hayEstacionamientoVigenteConPatente(estacionamiento.getPatente())) {
+			iniciarEstacionamientoViaApp(estacionamiento, numeroCelular);
 			lanzarAlerta("La solicitud de inicio de estacionamiento fue enviada");
 		}
 	}

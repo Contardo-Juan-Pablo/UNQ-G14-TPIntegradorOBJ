@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import Compra.CargaVirtual;
-import Compra.Compra;
-import EspaciosFisicos.PuntoDeVenta;
-import EspaciosFisicos.Zona;
-import Estacionamiento.Estacionamiento;
-import SEM.Entidad;
-import SEM.Infraccion;
+import compra.CargaVirtual;
+import compra.Compra;
+import espaciosFisicos.PuntoDeVenta;
+import espaciosFisicos.Zona;
+import estacionamiento.Estacionamiento;
+import sem.Entidad;
+import sem.Infraccion;
 
 public class TestSEM {
 	SEMTestClass sem;
@@ -37,7 +37,7 @@ public class TestSEM {
 		entidadesParticipantes = new ArrayList<Entidad>();
 		creditoAsociado = new HashMap<Integer, Integer>();
 		puntosDeVenta = new ArrayList<PuntoDeVenta>();
-		Zona zona = new Zona(puntosDeVenta, "AA44")
+		Zona zona = new Zona(puntosDeVenta, "AA44");
 		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
 	}
 	
