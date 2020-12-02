@@ -1,5 +1,4 @@
 package semTest;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 import AppTest.AppSEMTestClass;
-import app.AppSEM;
 import app.AppSEMInspector;
 import app.Estado;
 import compra.CargaVirtual;

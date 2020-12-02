@@ -19,10 +19,6 @@ public class Zona {
 		return codigoInspector;
 	}
 	
-	//public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
-	//	return true;
-	//}
-	
 	public boolean contieneAlInspector(String inspector) {
 		return inspector == getInspectorAsigando();
 	}

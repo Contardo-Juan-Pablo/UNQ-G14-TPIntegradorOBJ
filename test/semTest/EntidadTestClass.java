@@ -1,7 +1,5 @@
 package semTest;
-
 import java.util.ArrayList;
-
 import sem.Entidad;
 
 public class EntidadTestClass extends Entidad {
@@ -13,5 +11,4 @@ public class EntidadTestClass extends Entidad {
 	public ArrayList<String> getInformes() {
 		return this.informes;
 	}
-
 }

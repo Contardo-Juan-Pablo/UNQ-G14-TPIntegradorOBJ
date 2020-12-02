@@ -1,5 +1,5 @@
 package sem;
 
-public interface Observer {
+interface Observer {
 	public void update(String informe);
 }

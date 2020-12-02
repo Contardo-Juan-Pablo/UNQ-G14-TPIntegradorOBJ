@@ -84,7 +84,7 @@ public class SEM {
 		if(this.getHoraActual() >= 7 && this.getHoraActual() <= 20) {
 			this.almancenarNuevoEstacionamiento(estacionamiento);
 			this.enviarNotificaciones(estacionamiento.getPatente() + "Inicio estacionamiento el" + LocalDateTime.now().toString());
-		}
+		} 
 	}
 	
 	public void registrarCarga(CargaVirtual carga, AppSEM appSEM) {

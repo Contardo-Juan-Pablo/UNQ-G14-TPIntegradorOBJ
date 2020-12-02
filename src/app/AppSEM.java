@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import estacionamiento.Estacionamiento;
 import sem.SEM;
 
-public class AppSEM implements MovementSensor { 
+public class AppSEM implements MovementSensor, ObserverAppSEM { 
 	protected Estado estadoDelUsuario;
 	protected Modo modoAutomatico = Modo.DESACTIVADO;
 	protected SEM semAsociado;
@@ -66,4 +66,6 @@ public class AppSEM implements MovementSensor {
 	public int costoActual(int horasReservadas) {
 		return Estacionamiento.costoActualPorHoraEnFranjaHorario(horasReservadas);
 	}
+
+
 }
