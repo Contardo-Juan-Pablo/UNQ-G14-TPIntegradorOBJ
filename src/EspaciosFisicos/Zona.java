@@ -1,7 +1,6 @@
 package EspaciosFisicos;
 
 import java.util.ArrayList;
-import javafx.util.Pair;
 
 public class Zona {
 	private ArrayList<PuntoDeVenta> puntosDeVentaDisponibles;
@@ -20,9 +19,9 @@ public class Zona {
 		return codigoInspector;
 	}
 	
-	public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
-		return true;
-	}
+//	public Boolean perteneceAZona(Pair<Integer,Integer> posicion) {
+//		return true;
+//	}
 	
 	public boolean contieneAlInspector(String inspector) {
 		return inspector == getInspectorAsigando();
