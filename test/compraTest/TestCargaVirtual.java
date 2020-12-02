@@ -3,7 +3,7 @@ package compraTest;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-import Compra.CargaVirtual;
+import compra.CargaVirtual;
 
 public class TestCargaVirtual {
 

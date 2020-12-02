@@ -1,4 +1,4 @@
-package Compra;
+package compra;
 
 public class CargaVirtual {
 	private int montoDeRecarga;

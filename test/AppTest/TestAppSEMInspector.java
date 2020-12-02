@@ -3,8 +3,9 @@ package AppTest;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
-import App.AppSEMInspector;
-import SEM.SEM;
+
+import app.AppSEMInspector;
+import sem.SEM;
 
 public class TestAppSEMInspector {
 	AppSEMInspector appInspector;

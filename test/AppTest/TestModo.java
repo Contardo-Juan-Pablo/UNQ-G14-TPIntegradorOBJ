@@ -3,7 +3,8 @@ package AppTest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import App.Modo;
+
+import app.Modo;
 
 public class TestModo {	
 	@Test

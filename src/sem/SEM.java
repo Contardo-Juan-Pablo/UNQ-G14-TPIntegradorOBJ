@@ -1,4 +1,4 @@
-package SEM;
+package sem;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import App.AppSEM;
-import Compra.CargaVirtual;
-import Compra.Compra;
-import EspaciosFisicos.Zona;
-import Estacionamiento.Estacionamiento;
-import Estacionamiento.EstacionamientoViaApp;
+import app.AppSEM;
+import compra.CargaVirtual;
+import compra.Compra;
+import espaciosFisicos.Zona;
+import estacionamiento.Estacionamiento;
+import estacionamiento.EstacionamientoViaApp;
 
 public class SEM {
 	private ArrayList<Compra> comprasRealizadas = new ArrayList<Compra>();

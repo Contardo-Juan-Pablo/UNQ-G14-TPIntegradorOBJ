@@ -1,9 +1,10 @@
-package App;
+package app;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import Estacionamiento.Estacionamiento;
-import SEM.SEM;
+
+import estacionamiento.Estacionamiento;
+import sem.SEM;
 
 public class AppSEM implements MovementSensor { 
 	private Estado estadoDelUsuario;

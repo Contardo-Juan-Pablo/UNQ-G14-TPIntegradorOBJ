@@ -2,8 +2,9 @@ package compraTest;
 import static org.mockito.Mockito.*;
 import java.util.Calendar;
 import org.junit.Test;
-import Compra.Compra;
-import EspaciosFisicos.PuntoDeVenta;
+
+import compra.Compra;
+import espaciosFisicos.PuntoDeVenta;
 
 public class TestCompra {
 	

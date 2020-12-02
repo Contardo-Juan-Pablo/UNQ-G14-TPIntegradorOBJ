@@ -1,7 +1,8 @@
-package Compra;
+package compra;
 
 import java.util.Calendar;
-import EspaciosFisicos.PuntoDeVenta;
+
+import espaciosFisicos.PuntoDeVenta;
 
 public class Compra {
 	private String códigoDeControl;

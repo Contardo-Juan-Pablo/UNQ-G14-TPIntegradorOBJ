@@ -1,7 +1,8 @@
-package SEM;
+package sem;
 
 import java.util.Calendar;
-import EspaciosFisicos.Zona;
+
+import espaciosFisicos.Zona;
 
 public class Infraccion {
 	String patenteInfraccion;

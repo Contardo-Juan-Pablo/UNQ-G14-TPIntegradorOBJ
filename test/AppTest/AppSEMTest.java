@@ -5,11 +5,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-import App.AppSEM;
-import App.Estado;
-import App.Modo;
-import Estacionamiento.Estacionamiento;
-import SEM.SEM;
+
+import app.AppSEM;
+import app.Estado;
+import app.Modo;
+import estacionamiento.Estacionamiento;
+import sem.SEM;
 
 public class AppSEMTest {
 	private int numeroCelular;

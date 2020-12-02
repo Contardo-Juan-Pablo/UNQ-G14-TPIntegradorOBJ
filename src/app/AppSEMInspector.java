@@ -1,5 +1,5 @@
-package App;
-import SEM.SEM;
+package app;
+import sem.SEM;
 
 public class AppSEMInspector {
 	private SEM semAsociado;

@@ -1,13 +1,13 @@
-package EspaciosFisicos;
+package espaciosFisicos;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import App.AppSEM;
-import Compra.CargaVirtual;
-import Compra.Compra;
-import Estacionamiento.Estacionamiento;
-import SEM.SEM;
+import app.AppSEM;
+import compra.CargaVirtual;
+import compra.Compra;
+import estacionamiento.Estacionamiento;
+import sem.SEM;
 
 public class PuntoDeVenta {
 	private ArrayList<Integer> númeroDeControl;
@@ -20,12 +20,12 @@ public class PuntoDeVenta {
 		this.sem = sem;
 	} 
 
-	public void IngresarCompra(int cantidadDeHorasReservadas, String patente) {
+	public void ingresarCompra(int cantidadDeHorasReservadas, String patente) {
 		sem.registrarCompra(new Compra(this.getCodigoDeControl(),this, Calendar.getInstance(), cantidadDeHorasReservadas));
 		sem.guardarEstacionamiento(new Estacionamiento(patente, cantidadDeHorasReservadas));
 	}
 
-	public void IngresarCarga(int numeroDeCelular, int montoDeRecarga, AppSEM appSEM) {
+	public void ingresarCarga(int numeroDeCelular, int montoDeRecarga, AppSEM appSEM) {
 		sem.registrarCarga(new CargaVirtual(montoDeRecarga, numeroDeCelular), appSEM);
 	}
 	

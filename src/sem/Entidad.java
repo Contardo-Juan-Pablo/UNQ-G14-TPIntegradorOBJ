@@ -1,4 +1,4 @@
-package SEM;
+package sem;
 
 import java.util.ArrayList;
 

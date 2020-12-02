@@ -1,4 +1,4 @@
-package EspaciosFisicos;
+package espaciosFisicos;
 
 import java.util.ArrayList;
 import javafx.util.Pair;
