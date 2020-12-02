@@ -109,12 +109,20 @@ public class SEM {
 	public void registrarCompra(Compra compra) {
 		comprasRealizadas.add(compra);
 	}
-		
+	
 	public void almancenarNuevoEstacionamiento(Estacionamiento estacionamiento) {
 		estacionamientos.add(estacionamiento);
 	}
 	
 	public ArrayList<Estacionamiento> getEstacionamientos() {
 		return estacionamientos;
+	}
+	
+	public ArrayList<Compra> getComprasRealizadas() {
+		return comprasRealizadas;
 	}	
+	
+	public ArrayList<CargaVirtual> getCargasRealizadas(){
+		return cargasRealizadas;
+	}
 }
