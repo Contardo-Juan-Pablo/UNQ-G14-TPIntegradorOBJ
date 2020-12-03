@@ -30,4 +30,5 @@ public class EstacionamientoTestClass extends Estacionamiento {
 	public void setHorasReservadas(int cantidadDeHorasReservadas) {
 		this.cantidadDeHorasReservadas = cantidadDeHorasReservadas;
 	}
+	
 }
