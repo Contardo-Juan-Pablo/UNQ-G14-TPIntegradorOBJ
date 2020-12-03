@@ -7,8 +7,16 @@ import app.Modo;
 public abstract class EstacionamientoGeneral {
 	protected String patente;
 	protected LocalDateTime fechaYHoraInicio;
-	
 	protected Modo estadoDelEstacionamiento = Modo.ACTIVADO;
+	
+	public LocalDateTime getFechaMax(int cantidadDeHorasReservadas) {
+		return fechaYHoraInicio.plusHours(cantidadDeHorasReservadas);
+	}
+	
+	public LocalDateTime getFechaActual() {
+		return LocalDateTime.now();
+	}
+	
 	
 	public void finalizar() {
 		estadoDelEstacionamiento = Modo.DESACTIVADO;

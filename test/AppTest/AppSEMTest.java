@@ -28,10 +28,9 @@ public class AppSEMTest {
 	public void setUp() throws Exception {
 		semMock = mock(SEM.class);
 		updateHour = new UpdateHourTestClass();
-		appSEM = new AppSEMTestClass(Estado.CAMINANDO, semMock, updateHour);
+		appSEM = new AppSEMTestClass(Estado.CAMINANDO, semMock, updateHour, numeroCelular);
 		patente = "HDT";
 		numeroCelular = 1234;
-		
 	}
 	
 	@Test
@@ -220,6 +219,13 @@ public class AppSEMTest {
 	      theMock.when(() -> EstacionamientoGeneral.costoActualPorHoraEnFranjaHorario(1)).thenCallRealMethod();
 	      
 		  assertEquals(40, appSEM.costoActual(1));
+	}
+	
+	@Test
+	public void testFinalizarEstacionamientoAutomaticoUpdateHour() {
+		updateHour.setEstacionamientoActivo(true);
+		appSEM.finalizarEstacionamientoAutomaticoUpdateHour();
 		
+		assertEquals(2, appSEM.getNotificationHistory().size());
 	}
 }

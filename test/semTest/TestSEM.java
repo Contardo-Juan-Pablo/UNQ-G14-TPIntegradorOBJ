@@ -18,6 +18,7 @@ import sem.Infraccion;
 import compra.CompraPuntual;
 import app.AppSEM;
 import app.Estado;
+import app.Modo;
 import sem.Entidad;
 import sem.SEM;
 
@@ -53,7 +54,7 @@ public class TestSEM {
 		zona = new Zona(puntos, "AA44");
 		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, appSEMAsociadas, infraccionesLabradas, estacionamientos, entidadesParticipantes);
 		sem.setHoraActual(10);
-		appSem = new AppSEMTestClass(Estado.CAMINANDO, sem, updateHour);
+		appSem = new AppSEMTestClass(Estado.CAMINANDO, sem, updateHour, 0);
 		estacionamiento = new Estacionamiento("AA-33-CC", 2);
 	}
 	
@@ -166,7 +167,7 @@ public class TestSEM {
 	
 	@Test
 	public void realizarDescuentoDeSaldoExistePreviamente() {
-		CargaVirtual carga = new CargaVirtual(1000, 11111);
+		CargaVirtual carga = new CargaVirtual(null, null, null, 1000, 11111);
 		sem.registrarCarga(carga, appSem);
 		sem.realizarDescuentoDeSaldo(500, appSem);
 		assertEquals(500, appSem.getSaldoActual());
@@ -231,33 +232,16 @@ public class TestSEM {
 	public void guardarEstacionamientoMayorA20() {
 		sem.setHoraActual(22);
 		sem.guardarEstacionamiento(estacionamiento);
-		
 		assertEquals(0, sem.getEstacionamientos().size());
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Test
+	public void testActualizacionDeEstacionamientos() {
+		EstacionamientoViaApp eva = new EstacionamientoViaApp("AA-33-XX", 1111);
+		
+		sem.guardarEstacionamiento(eva);
+		sem.actualizacionDeEstacionamientos();
+		
+		assertFalse(sem.getEstacionamientos().get(0).estaActivo());
+	}
 }

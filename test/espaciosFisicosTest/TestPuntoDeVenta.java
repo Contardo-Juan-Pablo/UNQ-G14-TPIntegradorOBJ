@@ -41,7 +41,7 @@ public class TestPuntoDeVenta {
 		updateHour = new UpdateHourTestClass();
 		zonasConSEM = new ArrayList<Zona>();
 		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, appSEMAsociadas, infraccionesLabradas, estacionamientos, entidadesParticipantes);
-		appSem = new AppSEM(Estado.CAMINANDO, sem, updateHour);
+		appSem = new AppSEM(Estado.CAMINANDO, sem, updateHour, 0);
 	}
 	
 	@Test
@@ -60,8 +60,8 @@ public class TestPuntoDeVenta {
 	@Test
 	public void ingresarCarga() {
 		PuntoDeVenta puntoDeVenta = new PuntoDeVenta(null, null, sem);
-		puntoDeVenta.ingresarCarga(123456, 200, appSem);
-		
+		CargaVirtual carga = new CargaVirtual(null, puntoDeVenta, null, 123456, 200);
+		puntoDeVenta.ingresarCarga(carga, appSem);
 		assertEquals(1, sem.getCargasRealizadas().size());
 	}
 	

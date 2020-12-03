@@ -13,13 +13,15 @@ public class AppSEM implements MovementSensor, ObserverAppSEM {
 	protected UpdateHour updateHour;
 	protected ArrayList<String> notificationHistory = new ArrayList<String>();
 	protected Integer saldoActual = 0;
+	protected int numeroCelular;
 	
 	
 	/**             CONSTRUCTOR DE CLASE                  **/
-	public AppSEM(Estado estadoDelUsuario, SEM semAsociado, UpdateHour updateHour) {
+	public AppSEM(Estado estadoDelUsuario, SEM semAsociado, UpdateHour updateHour, int numeroCelular) {
 		this.estadoDelUsuario = estadoDelUsuario;
 		this.semAsociado = semAsociado;
 		this.updateHour = updateHour;
+		this.numeroCelular = numeroCelular;
 	} 
  
 	/**             GETTERS AND SETTERS                  **/
@@ -48,16 +50,18 @@ public class AppSEM implements MovementSensor, ObserverAppSEM {
 		}
 	}
 	
+	public void finalizarEstacionamientoAutomaticoUpdateHour() {
+		if(updateHour.excedioLaCantidadDeHorasMaxima()) {
+			finalizarEstacionamientoViaApp(numeroCelular);
+			lanzarAlerta("Su saldo se agotó, por favor vuelva a su vehículo");
+		}
+	}
+	
 	public void finalizarEstacionamientoAutomatico(SEM sem, int numeroCelular,String patente) {
 		
 		if((estadoDelUsuario == Estado.MANEJANDO && sem.hayEstacionamientoVigenteConPatente(patente))) {
 			finalizarEstacionamientoViaApp(numeroCelular);
 			lanzarAlerta("La solicitud de finalización de estacionamiento fue enviada");
-		} 
-		
-		if(updateHour.excedioLaCantidadDeHorasMaxima()) {
-			finalizarEstacionamientoViaApp(numeroCelular);
-			lanzarAlerta("Su saldo se agotó, por favor vuelva a su vehículo");
 		}
 	}
 	

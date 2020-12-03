@@ -2,6 +2,9 @@ package estacionamientoTest;
 
 import estacionamiento.EstacionamientoGeneral;
 import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDateTime;
+
 import org.mockito.MockedStatic;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -37,4 +40,5 @@ public class TestEstacionamientoGeneral {
 			  assertEquals(200, EstacionamientoGeneral.costoActualPorHoraEnFranjaHorario(5));
 		}
 	}
+	
 }

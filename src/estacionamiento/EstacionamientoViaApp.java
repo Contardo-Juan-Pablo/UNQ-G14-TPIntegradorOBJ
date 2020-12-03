@@ -2,6 +2,8 @@ package estacionamiento;
 
 import java.time.LocalDateTime;
 
+import app.Modo;
+
 public class EstacionamientoViaApp extends EstacionamientoGeneral {
 	private int numeroCelularOrigen;
 	
@@ -25,5 +27,7 @@ public class EstacionamientoViaApp extends EstacionamientoGeneral {
 	}
 
 	@Override
-	public void finalizarSiCumple(Boolean condicion) {}
+	public void finalizarSiCumple(Boolean condicion) {
+		estadoDelEstacionamiento = Modo.DESACTIVADO;
+	}
 }

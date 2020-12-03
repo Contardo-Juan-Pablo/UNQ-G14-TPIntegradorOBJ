@@ -7,8 +7,8 @@ import sem.SEM;
 
 public class AppSEMTestClass extends AppSEM {
 	
-	public AppSEMTestClass(Estado estadoDelUsuario, SEM semAsociado, UpdateHourTestClass updateHour) {
-		super(estadoDelUsuario, semAsociado, updateHour);
+	public AppSEMTestClass(Estado estadoDelUsuario, SEM semAsociado, UpdateHourTestClass updateHour, int numeroCelular) {
+		super(estadoDelUsuario, semAsociado, updateHour, numeroCelular);
 	}
 
 	public int costoActual(int horasReservadas) {

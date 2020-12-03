@@ -1,4 +1,5 @@
 package estacionamiento;
+
 import java.time.LocalDateTime;
 
 public class Estacionamiento extends EstacionamientoGeneral {	
@@ -20,15 +21,13 @@ public class Estacionamiento extends EstacionamientoGeneral {
 
 	@Override
 	public boolean estaDentroDeFranjaHorariaComprada() {
-		LocalDateTime fechaMax = fechaYHoraInicio.plusHours(cantidadDeHorasReservadas);
-		LocalDateTime fechaActual = LocalDateTime.now();
-		if(fechaMax.getHour() == fechaActual.getHour()) {
-			return fechaMax.getMinute() < fechaActual.getMinute();
+		if(getFechaMax(cantidadDeHorasReservadas).getHour() == getFechaActual().getHour()) {
+			return getFechaMax(cantidadDeHorasReservadas).getMinute() < getFechaActual().getMinute();
 		} else {
 			return false;
-		}	
+		}
 	}
-
+	
 	@Override
 	public void finalizarSiCumple(Boolean condicion) {
 		if(condicion) {
