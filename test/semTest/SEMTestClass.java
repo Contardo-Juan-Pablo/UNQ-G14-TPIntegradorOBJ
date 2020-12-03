@@ -1,11 +1,10 @@
 package semTest;
 import java.util.ArrayList;
-import java.util.Map;
-
+import app.AppSEM;
 import compra.CargaVirtual;
-import compra.Compra;
+import compra.CompraPuntual;
 import espaciosFisicos.Zona;
-import estacionamiento.Estacionamiento;
+import estacionamiento.EstacionamientoGeneral;
 import sem.Entidad;
 import sem.Infraccion;
 import sem.SEM;
@@ -13,19 +12,19 @@ import sem.SEM;
 public class SEMTestClass extends SEM {
 	private int horaActual = 0;
 	
-	public SEMTestClass(ArrayList<Compra> comprasRealizadas, ArrayList<CargaVirtual> cargasRealizadas,
-			ArrayList<Zona> zonasConSEM, Map<Integer, Integer> creditoAsociado,
-			ArrayList<Infraccion> infraccionesLabradas, ArrayList<Estacionamiento> estacionamientos,
+	public SEMTestClass(ArrayList<CompraPuntual> comprasRealizadas, ArrayList<CargaVirtual> cargasRealizadas,
+			ArrayList<Zona> zonasConSEM, ArrayList<AppSEM> appSEMAsociadas,
+			ArrayList<Infraccion> infraccionesLabradas, ArrayList<EstacionamientoGeneral> estacionamientos,
 			ArrayList<Entidad> entidadesParticipantes) {
-		super(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos,
+		super(comprasRealizadas, cargasRealizadas, zonasConSEM, appSEMAsociadas, infraccionesLabradas, estacionamientos,
 				entidadesParticipantes);
 	}
 
-	public ArrayList<Estacionamiento> getEstacionamientos() {
+	public ArrayList<EstacionamientoGeneral> getEstacionamientos() {
 		return estacionamientos;
 	}
 	
-	public ArrayList<Compra> getComprasRealizadas() {
+	public ArrayList<CompraPuntual> getComprasRealizadas() {
 		return comprasRealizadas;
 	}
 	
@@ -50,5 +49,9 @@ public class SEMTestClass extends SEM {
 	
 	public ArrayList<Entidad> getEntidadesParticipantes() {
 		return entidadesParticipantes;
+	}
+	
+	public void addAppSem(AppSEM appSem) {
+		appSEMAsociadas.add(appSem);
 	}
 }

@@ -1,10 +1,11 @@
 package espaciosFisicos;
-
-import java.util.ArrayList;
-import app.AppSEM;
-import compra.CargaVirtual;
-import compra.Compra;
 import estacionamiento.Estacionamiento;
+import java.util.ArrayList;
+import compra.CargaVirtual;
+import compra.CompraPuntual;
+import app.AppSEM;
+
+
 import sem.SEM;
 
 public class PuntoDeVenta {
@@ -18,13 +19,13 @@ public class PuntoDeVenta {
 		this.sem = sem;
 	} 
 
-	public void ingresarCompra(Compra compra, Estacionamiento estacionamiento) {
+	public void ingresarCompra(CompraPuntual compra, Estacionamiento estacionamiento) {
 		sem.registrarCompra(compra);
 		sem.guardarEstacionamiento(estacionamiento);
 	}
 
-	public void ingresarCarga(int numeroDeCelular, int montoDeRecarga, AppSEM appSEM) {
-		sem.registrarCarga(new CargaVirtual(montoDeRecarga, numeroDeCelular), appSEM);
+	public void ingresarCarga(CargaVirtual cargaVirtual, AppSEM appSEM) {
+		sem.registrarCarga(cargaVirtual, appSEM);
 	}
 	
 	public String getCodigoDeControl() {

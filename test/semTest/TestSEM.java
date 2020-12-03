@@ -1,58 +1,60 @@
 package semTest;
+import estacionamiento.EstacionamientoGeneral;
+import estacionamiento.EstacionamientoViaApp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import estacionamiento.Estacionamiento;
+import espaciosFisicos.PuntoDeVenta;
+import AppTest.UpdateHourTestClass;
+import AppTest.AppSEMTestClass;
 import java.time.LocalDateTime;
+import espaciosFisicos.Zona;
 import java.util.ArrayList;
-import java.util.HashMap;
+import compra.CargaVirtual;
 import org.junit.Before;
 import org.junit.Test;
-import AppTest.AppSEMTestClass;
-import app.AppSEMInspector;
-import app.Estado;
-import compra.CargaVirtual;
-import compra.Compra;
-import espaciosFisicos.PuntoDeVenta;
-import espaciosFisicos.Zona;
-import estacionamiento.Estacionamiento;
-import estacionamiento.EstacionamientoViaApp;
-import sem.Entidad;
 import sem.Infraccion;
+import compra.CompraPuntual;
+import app.AppSEM;
+import app.Estado;
+import sem.Entidad;
 import sem.SEM;
 
 import static org.mockito.Mockito.*;
 
 public class TestSEM {
-	AppSEMTestClass appSem;
-	AppSEMInspector appInspector;
-	SEMTestClass sem;
-	Zona zona;
-	ArrayList<Compra> comprasRealizadas;
-	ArrayList<CargaVirtual> cargasRealizadas;
-	ArrayList<Zona> zonasConSEM;
-	ArrayList<Infraccion> infraccionesLabradas; 
-	ArrayList<Estacionamiento> estacionamientos;
-	ArrayList<Entidad> entidadesParticipantes;
-	ArrayList<PuntoDeVenta> puntos;
-	HashMap<Integer, Integer> creditoAsociado;
-	ArrayList<String> informes;
-	
+	private ArrayList<EstacionamientoGeneral> estacionamientos;
+	private ArrayList<Infraccion> infraccionesLabradas;
+	private ArrayList<Entidad> entidadesParticipantes;
+	private ArrayList<CargaVirtual> cargasRealizadas;
+	private ArrayList<CompraPuntual> comprasRealizadas;
+	private ArrayList<AppSEM> appSEMAsociadas;
+	private Estacionamiento estacionamiento;
+	private UpdateHourTestClass updateHour;
+	private ArrayList<PuntoDeVenta> puntos;
+	private ArrayList<Zona> zonasConSEM;
+	private ArrayList<String> informes;
+	private AppSEMTestClass appSem;
+	private SEMTestClass sem;
+	private Zona zona;
 	
 	@Before
 	public void setup() {
+		updateHour = new UpdateHourTestClass();
 		informes = new ArrayList<String>();
-		comprasRealizadas = new ArrayList<Compra>();
+		comprasRealizadas = new ArrayList<CompraPuntual>();
 		cargasRealizadas = new ArrayList<CargaVirtual>();
 		zonasConSEM = new ArrayList<Zona>();
 		infraccionesLabradas = new ArrayList<Infraccion>(); 
-		estacionamientos = new ArrayList<Estacionamiento>();
+		estacionamientos = new ArrayList<EstacionamientoGeneral>();
 		entidadesParticipantes = new ArrayList<Entidad>();
-		creditoAsociado = new HashMap<Integer, Integer>();
+		appSEMAsociadas = new ArrayList<AppSEM>();
 		zona = new Zona(puntos, "AA44");
-		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
+		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, appSEMAsociadas, infraccionesLabradas, estacionamientos, entidadesParticipantes);
 		sem.setHoraActual(10);
-		appInspector = new AppSEMInspector(sem);
-		appSem = new AppSEMTestClass(Estado.CAMINANDO, sem);
+		appSem = new AppSEMTestClass(Estado.CAMINANDO, sem, updateHour);
+		estacionamiento = new Estacionamiento("AA-33-CC", 2);
 	}
 	
 	@Test 	
@@ -77,9 +79,15 @@ public class TestSEM {
 	}
 	
 	@Test
+	public void registrarCompra()  {
+		CompraPuntual compra = mock(CompraPuntual.class);
+		sem.registrarCompra(compra);
+		assertEquals(1, sem.getComprasRealizadas().size());
+	}
+	
+	@Test
 	public void hayEstacionamientoVigenteConPatente() {
 		sem.setHoraActual(10);
-		Estacionamiento estacionamiento = new Estacionamiento("AA-33-CC", 2);
 		sem.guardarEstacionamiento(estacionamiento);
 		
 		assertTrue(sem.hayEstacionamientoVigenteConPatente("AA-33-CC"));
@@ -88,7 +96,6 @@ public class TestSEM {
 	@Test
 	public void hayEstacionamientoVigenteConPatenteFinalizado() {
 		sem.setHoraActual(10);
-		Estacionamiento estacionamiento = new Estacionamiento("AA-33-CC", 2);
 		estacionamiento.finalizar();
 		sem.guardarEstacionamiento(estacionamiento);
 		
@@ -105,16 +112,19 @@ public class TestSEM {
 	
 	@Test
 	public void finalizarEstacionamientos() {
-		sem.setHoraActual(10);
+		AppSEM appSEMX = mock(AppSEM.class);
+		sem.setHoraActual(20);
+		sem.addAppSem(appSEMX);
 		Estacionamiento estacionamiento = new Estacionamiento("AA-33-CC", 2);
 		Estacionamiento estacionamientoDos = new Estacionamiento("AA-33-XX", 4);
 		sem.guardarEstacionamiento(estacionamiento);
 		sem.guardarEstacionamiento(estacionamientoDos);
-		sem.setHoraActual(20);
 		sem.finalizarEstacionamientos();
+		
 		
 		assertFalse(sem.getEstacionamientos().get(0).estaActivo());
 		assertFalse(sem.getEstacionamientos().get(1).estaActivo());
+		verify(appSEMX).finalizarEstacionamientoHoraMaximaSEM();
 	}
 	
 	@Test
@@ -150,7 +160,7 @@ public class TestSEM {
 	
 	@Test
 	public void realizarDescuentoDeSaldo() {
-		sem.realizarDescuentoDeSaldo(11111, 444, appSem);
+		sem.realizarDescuentoDeSaldo(444, appSem);
 		assertEquals(444, appSem.getSaldoActual());
 	}
 	
@@ -158,13 +168,13 @@ public class TestSEM {
 	public void realizarDescuentoDeSaldoExistePreviamente() {
 		CargaVirtual carga = new CargaVirtual(1000, 11111);
 		sem.registrarCarga(carga, appSem);
-		sem.realizarDescuentoDeSaldo(11111, 500, appSem);
+		sem.realizarDescuentoDeSaldo(500, appSem);
 		assertEquals(500, appSem.getSaldoActual());
 	}
 	
 	@Test
 	public void fueraDeHorario() {
-		sem.setHoraActual(25);
+		sem.setHoraActual(21);
 		
 		assertTrue(sem.fueraDeHorario(20));
 	}
@@ -209,9 +219,21 @@ public class TestSEM {
 		verify(entidad).update("HH");
 	}
 	
-
+	@Test
+	public void guardarEstacionamientoMenorA7() {
+		sem.setHoraActual(5);
+		sem.guardarEstacionamiento(estacionamiento);
+		
+		assertEquals(0, sem.getEstacionamientos().size());
+	}
 	
-
+	@Test
+	public void guardarEstacionamientoMayorA20() {
+		sem.setHoraActual(22);
+		sem.guardarEstacionamiento(estacionamiento);
+		
+		assertEquals(0, sem.getEstacionamientos().size());
+	}
 	
 	
 	

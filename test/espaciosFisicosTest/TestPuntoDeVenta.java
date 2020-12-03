@@ -1,54 +1,52 @@
 package espaciosFisicosTest;
-
-import org.junit.Before;
-import org.junit.Test;
+import estacionamiento.EstacionamientoGeneral;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import estacionamiento.Estacionamiento;
 import static org.mockito.Mockito.*;
+import espaciosFisicos.PuntoDeVenta;
+import AppTest.UpdateHourTestClass;
+import semTest.SEMTestClass;
+import espaciosFisicos.Zona;
 import java.util.ArrayList;
-import java.util.HashMap;
+import compra.CargaVirtual;
+import org.junit.Before;
+import sem.Infraccion;
+import compra.CompraPuntual;
+import org.junit.Test;
+import sem.Entidad;
 import app.AppSEM;
 import app.Estado;
-import compra.CargaVirtual;
-import compra.Compra;
-import espaciosFisicos.PuntoDeVenta;
-import espaciosFisicos.Zona;
-import estacionamiento.Estacionamiento;
-import sem.Entidad;
-import sem.Infraccion;
-import semTest.SEMTestClass;
 
 public class TestPuntoDeVenta {
-	AppSEM appSem;
-	SEMTestClass sem;
-	ArrayList<Compra> comprasRealizadas;
-	ArrayList<CargaVirtual> cargasRealizadas;
-	ArrayList<Zona> zonasConSEM;
-	ArrayList<Infraccion> infraccionesLabradas; 
-	ArrayList<Estacionamiento> estacionamientos;
-	ArrayList<Entidad> entidadesParticipantes;
-	ArrayList<PuntoDeVenta> puntos;
-	HashMap<Integer, Integer> creditoAsociado;
-	Zona zona;
+	private ArrayList<EstacionamientoGeneral> estacionamientos;
+	private ArrayList<Infraccion> infraccionesLabradas; 
+	private ArrayList<Entidad> entidadesParticipantes;
+	private ArrayList<CargaVirtual> cargasRealizadas;
+	private ArrayList<CompraPuntual> comprasRealizadas;
+	private ArrayList<AppSEM> appSEMAsociadas;
+	private UpdateHourTestClass updateHour;
+	private ArrayList<Zona> zonasConSEM;
+	private SEMTestClass sem;
+	private AppSEM appSem;
 	
 	@Before
 	public void setup() {
-		comprasRealizadas = new ArrayList<Compra>();
-		cargasRealizadas = new ArrayList<CargaVirtual>();
-		zonasConSEM = new ArrayList<Zona>();
+		estacionamientos = new ArrayList<EstacionamientoGeneral>();
 		infraccionesLabradas = new ArrayList<Infraccion>(); 
-		estacionamientos = new ArrayList<Estacionamiento>();
 		entidadesParticipantes = new ArrayList<Entidad>();
-		creditoAsociado = new HashMap<Integer, Integer>();
-		zona = new Zona(puntos, "AA44");
-		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, creditoAsociado, infraccionesLabradas, estacionamientos, entidadesParticipantes);
-		appSem = new AppSEM(Estado.CAMINANDO, sem);
+		cargasRealizadas = new ArrayList<CargaVirtual>();
+		comprasRealizadas = new ArrayList<CompraPuntual>();
+		appSEMAsociadas = new ArrayList<AppSEM>();
+		updateHour = new UpdateHourTestClass();
+		zonasConSEM = new ArrayList<Zona>();
+		sem = new SEMTestClass(comprasRealizadas, cargasRealizadas, zonasConSEM, appSEMAsociadas, infraccionesLabradas, estacionamientos, entidadesParticipantes);
+		appSem = new AppSEM(Estado.CAMINANDO, sem, updateHour);
 	}
-	
 	
 	@Test
 	public void ingresarCompra() {
-		Compra compra = mock(Compra.class);
+		CompraPuntual compra = mock(CompraPuntual.class);
 		Estacionamiento estacionamiento = mock(Estacionamiento.class);
 		
 		sem.setHoraActual(10);

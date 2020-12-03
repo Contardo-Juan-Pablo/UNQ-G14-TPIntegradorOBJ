@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import app.AppSEMInspector;
 import compra.CargaVirtual;
-import compra.Compra;
+import compra.CompraPuntual;
 import espaciosFisicos.PuntoDeVenta;
 import espaciosFisicos.Zona;
 import estacionamiento.Estacionamiento;
@@ -20,7 +20,7 @@ import semTest.SEMTestClass;
 public class TestAppSEMInspector {
 	AppSEMInspector appInspector;
 	SEMTestClass sem;
-	ArrayList<Compra> comprasRealizadas;
+	ArrayList<CompraPuntual> comprasRealizadas;
 	ArrayList<CargaVirtual> cargasRealizadas;
 	ArrayList<Zona> zonasConSEM;
 	ArrayList<Infraccion> infraccionesLabradas; 
@@ -33,7 +33,7 @@ public class TestAppSEMInspector {
 	
 	@Before
 	public void setup() {
-		comprasRealizadas = new ArrayList<Compra>();
+		comprasRealizadas = new ArrayList<CompraPuntual>();
 		cargasRealizadas = new ArrayList<CargaVirtual>();
 		zonasConSEM = new ArrayList<Zona>();
 		infraccionesLabradas = new ArrayList<Infraccion>(); 

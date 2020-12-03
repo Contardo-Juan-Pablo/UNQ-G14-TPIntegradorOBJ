@@ -1,17 +1,13 @@
 package compra;
 
 import java.util.Calendar;
-
 import espaciosFisicos.PuntoDeVenta;
 
-public class Compra {
-	private String códigoDeControl;
-	private PuntoDeVenta puntoDeVenta;
-	private Calendar fechaYHoraCompra;
+public class CompraPuntual extends CompraGeneral{
 	private int cantidadDeHorasCompradas;
 	
 	
-	public Compra(String códigoDeControl, PuntoDeVenta puntoDeVenta, Calendar fechaYHoraCompra, int cantidadDeHorasCompradas) {
+	public CompraPuntual(String códigoDeControl, PuntoDeVenta puntoDeVenta, Calendar fechaYHoraCompra, int cantidadDeHorasCompradas) {
 		this.códigoDeControl = códigoDeControl;
 		this.puntoDeVenta = puntoDeVenta;
 		this.fechaYHoraCompra = fechaYHoraCompra;
